@@ -1,4 +1,4 @@
 TripleS
 =======
 
-for Generic Servger
+for Generic Server
