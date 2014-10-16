@@ -1,0 +1,132 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Util">
+      <UniqueIdentifier>{7a4a7f86-a4e8-4ef8-bf22-aa8e1800cc32}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Service">
+      <UniqueIdentifier>{0f4daa80-11b4-4b9e-bb16-ad61ef66580f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Etc">
+      <UniqueIdentifier>{b82ef702-5674-4bdc-b530-466f7617943e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Service\Proactor">
+      <UniqueIdentifier>{315113ac-e9df-4224-bdba-4038ac3a7585}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Service\Proactor\Tcp">
+      <UniqueIdentifier>{cb877943-2b20-4881-bb49-c0cc857fe9e1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Service\Proactor\Udp">
+      <UniqueIdentifier>{c4e629cf-f48f-4f23-8d98-bb01bb875a00}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Act.h">
+      <Filter>Service\Proactor</Filter>
+    </ClInclude>
+    <ClInclude Include="Threads.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Proactor.h">
+      <Filter>Service\Proactor</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>Etc</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>Etc</Filter>
+    </ClInclude>
+    <ClInclude Include="Macro.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="TripleContainer.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="FunctorAdapter.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="FowardDeclaration.h">
+      <Filter>Etc</Filter>
+    </ClInclude>
+    <ClInclude Include="WinSock.h">
+      <Filter>Etc</Filter>
+    </ClInclude>
+    <ClInclude Include="AutoLock.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Actor.h">
+      <Filter>Service\Proactor</Filter>
+    </ClInclude>
+    <ClInclude Include="TcpSocket.h">
+      <Filter>Service\Proactor\Tcp</Filter>
+    </ClInclude>
+    <ClInclude Include="TcpAct.h">
+      <Filter>Service\Proactor\Tcp</Filter>
+    </ClInclude>
+    <ClInclude Include="TcpListenSocket.h">
+      <Filter>Service\Proactor\Tcp</Filter>
+    </ClInclude>
+    <ClInclude Include="TcpService.h">
+      <Filter>Service\Proactor\Tcp</Filter>
+    </ClInclude>
+    <ClInclude Include="Sender.h">
+      <Filter>Service\Proactor</Filter>
+    </ClInclude>
+    <ClInclude Include="Receiver.h">
+      <Filter>Service\Proactor</Filter>
+    </ClInclude>
+    <ClInclude Include="Disconnector.h">
+      <Filter>Service\Proactor</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseIocp_parameter.h">
+      <Filter>Service\Proactor</Filter>
+    </ClInclude>
+    <ClInclude Include="IocpServer.h">
+      <Filter>Service</Filter>
+    </ClInclude>
+    <ClInclude Include="Service.h">
+      <Filter>Service</Filter>
+    </ClInclude>
+    <ClInclude Include="Acceptor.h">
+      <Filter>Service\Proactor</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Proactor.cpp">
+      <Filter>Service\Proactor</Filter>
+    </ClCompile>
+    <ClCompile Include="Threads.cpp">
+      <Filter>Util</Filter>
+    </ClCompile>
+    <ClCompile Include="TripleS.cpp">
+      <Filter>Etc</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Etc</Filter>
+    </ClCompile>
+    <ClCompile Include="Macro.cpp">
+      <Filter>Util</Filter>
+    </ClCompile>
+    <ClCompile Include="TcpListenSocket.cpp">
+      <Filter>Service\Proactor\Tcp</Filter>
+    </ClCompile>
+    <ClCompile Include="TcpService.cpp">
+      <Filter>Service\Proactor\Tcp</Filter>
+    </ClCompile>
+    <ClCompile Include="TcpSocket.cpp">
+      <Filter>Service\Proactor\Tcp</Filter>
+    </ClCompile>
+    <ClCompile Include="IocpServer.cpp">
+      <Filter>Service</Filter>
+    </ClCompile>
+    <ClCompile Include="Acceptor.cpp">
+      <Filter>Service\Proactor</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
+  </ItemGroup>
+</Project>
