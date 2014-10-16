@@ -1,12 +1,13 @@
+------------------
 #TripleS
-==========
-
-###Network Library for Game Server
-----------
-
-#####Develop Info
+###for Network library
+------------------
+__info__
 
 language : c++
 
 platform : windows(x64)
-----------
+
+
+
+------------------
