@@ -2,7 +2,7 @@
 #TripleS
 ###for Network library
 ------------------
-#####info
+__info__
 
 language : c++
 
