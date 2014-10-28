@@ -93,10 +93,17 @@
     <ClInclude Include="Acceptor.h">
       <Filter>Service\Proactor</Filter>
     </ClInclude>
-    <ClInclude Include="Packet.h" />
-    <ClInclude Include="PacketHead.h" />
     <ClInclude Include="TcpService.h">
       <Filter>Service\Proactor\Tcp</Filter>
+    </ClInclude>
+    <ClInclude Include="PacketStream.h">
+      <Filter>Service</Filter>
+    </ClInclude>
+    <ClInclude Include="Packet.h">
+      <Filter>Service</Filter>
+    </ClInclude>
+    <ClInclude Include="PacketHead.h">
+      <Filter>Service</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
