@@ -9,9 +9,9 @@
 #include "Sender.h"
 #include "Receiver.h"
 
-void TripleS::TcpService::Start(BaseIocpDesc desc)
+void TripleS::TcpService::Start(service_desc desc)
 {
-    m_threads = TripleS::P_THREADS(new TripleS::Threads(128));
+    m_threads = TripleS::P_THREADS(new TripleS::Threads(std::thread::hardware_concurrency() * 4));
     m_proactor = TripleS::P_PROACTOR(new Proactor(m_threads));
     m_tcp_listen_socket = TripleS::P_TCPLISTENSOCKET(new TcpListenSocket);
     m_acceptor = TripleS::P_ACCEPTOR(new Acceptor);
@@ -34,7 +34,7 @@ void TripleS::TcpService::Start(BaseIocpDesc desc)
         Sleep(200);
     }
 
-    m_tcp_listen_socket->Init(9000);
+    m_tcp_listen_socket->Init(desc.m_port);
     m_tcp_listen_socket->Listen(m_proactor);
 
     m_acceptor->Init(m_tcp_listen_socket, m_proactor);
@@ -45,7 +45,8 @@ void TripleS::TcpService::Start(BaseIocpDesc desc)
 
     m_receiver->Init(m_proactor);
 
-    for (int i = 0; i < 10; i++)
+
+    for (unsigned int i = 0; i < desc.m_accept_pool_size; i++)
     {
         TcpSocket* socket = new TcpSocket;
         socket->Init();

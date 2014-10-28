@@ -23,7 +23,7 @@ namespace TripleS
     class TcpService : public Service DEBUG_PARENTS(TcpService)
     {
     public:
-        void Start(BaseIocpDesc desc);
+        void Start(service_desc desc);
         void Join();
 
     private:

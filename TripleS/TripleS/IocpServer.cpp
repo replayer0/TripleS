@@ -21,7 +21,7 @@ TripleS::Iocp::~Iocp()
 {
 }
 
-void TripleS::Iocp::Start(BaseIocpDesc desc)
+void TripleS::Iocp::Start(service_desc desc)
 {
     m_proactor->Init();
     

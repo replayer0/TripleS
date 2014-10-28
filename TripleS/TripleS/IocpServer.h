@@ -22,7 +22,7 @@ namespace TripleS
             , TripleS::P_THREADS p_threads);
         ~Iocp();
 
-        void Start(BaseIocpDesc desc);
+        void Start(service_desc desc);
         void Join();
 
     private:

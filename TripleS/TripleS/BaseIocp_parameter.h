@@ -27,11 +27,13 @@ namespace TripleS {
     };
 
     // Todo - ....
-    class BaseIocpDesc
+    class service_desc
     {
     public:
-        unsigned int m_begin_thread_count;
-        unsigned int m_maximun_thread_count;
+        unsigned int m_begin_thread_count{2};
+        unsigned int m_max_thread_count{4};
+        WORD         m_port{9000};
+        unsigned int m_accept_pool_size{10};
         //unsigned int m_time_out{ 5000 };
     };
 };
