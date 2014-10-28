@@ -49,10 +49,6 @@ namespace TripleS
         TcpAct			Act_[ACT_TYPE_CNT];
 
     public:
-        SOCKET			Socket_;
-        SOCKADDR_IN		Addr_;
-
-    public:
         char			AcceptBuf_[BUFSIZE];
 
         char			RecvBuf_[BUFSIZE];
@@ -62,6 +58,9 @@ namespace TripleS
         WSABUF			wsaSendBuf;
 
     private:
+        SOCKET			Socket_;
+        SOCKADDR_IN		Addr_;
+
         TripleS::P_PROACTOR Proactor_;
         TripleS::P_ACCEPTOR Acceptor_;
         TripleS::P_DISCONNECTOR Disconnector_;
