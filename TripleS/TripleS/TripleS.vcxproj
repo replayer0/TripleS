@@ -68,7 +68,8 @@
       <MapExports>true</MapExports>
     </Link>
     <PostBuildEvent>
-      <Command>copy /Y "$(SolutionDir)lib\necessary_runtime\" "$(TargetDir)";</Command>
+      <Command>copy /Y "$(SolutionDir)lib\necessary_runtime\" "$(TargetDir)";
+copy /Y "$(SolutionDir)TripleS\vld.ini" "$(TargetDir)";</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -138,6 +139,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
+    <None Include="vld.ini" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

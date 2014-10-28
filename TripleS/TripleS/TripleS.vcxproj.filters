@@ -19,6 +19,9 @@
     <Filter Include="Service\Proactor\Udp">
       <UniqueIdentifier>{c4e629cf-f48f-4f23-8d98-bb01bb875a00}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Setting">
+      <UniqueIdentifier>{6a41fe13-baa7-486a-aab5-a0ffbb4e2cdb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -69,9 +72,6 @@
     <ClInclude Include="TcpListenSocket.h">
       <Filter>Service\Proactor\Tcp</Filter>
     </ClInclude>
-    <ClInclude Include="TcpService.h">
-      <Filter>Service\Proactor\Tcp</Filter>
-    </ClInclude>
     <ClInclude Include="Sender.h">
       <Filter>Service\Proactor</Filter>
     </ClInclude>
@@ -95,6 +95,9 @@
     </ClInclude>
     <ClInclude Include="Packet.h" />
     <ClInclude Include="PacketHead.h" />
+    <ClInclude Include="TcpService.h">
+      <Filter>Service\Proactor\Tcp</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Proactor.cpp">
@@ -115,9 +118,6 @@
     <ClCompile Include="TcpListenSocket.cpp">
       <Filter>Service\Proactor\Tcp</Filter>
     </ClCompile>
-    <ClCompile Include="TcpService.cpp">
-      <Filter>Service\Proactor\Tcp</Filter>
-    </ClCompile>
     <ClCompile Include="TcpSocket.cpp">
       <Filter>Service\Proactor\Tcp</Filter>
     </ClCompile>
@@ -127,8 +127,14 @@
     <ClCompile Include="Acceptor.cpp">
       <Filter>Service\Proactor</Filter>
     </ClCompile>
+    <ClCompile Include="TcpService.cpp">
+      <Filter>Service\Proactor\Tcp</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
+    <None Include="vld.ini">
+      <Filter>Setting</Filter>
+    </None>
   </ItemGroup>
 </Project>
