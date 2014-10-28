@@ -21,7 +21,6 @@
 /* SHOW DEBUG INFO LOCK */
 #ifdef TRIPLE_S_DEBUG_MODE
 TripleS::Lock g_debug_info_lock;
-#endif // TRIPLE_S_DEBUG_MODE
 
 void TripleS::_DEBUG_INFO(
     eDEBUG_INFO_LEVEL level,
@@ -115,3 +114,5 @@ void TripleS::_DEBUG_INFO(
 
     std::cout << debug_str << buf << std::endl;
 }
+
+#endif // TRIPLE_S_DEBUG_MODE

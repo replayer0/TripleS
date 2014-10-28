@@ -22,7 +22,6 @@ namespace TripleS
         eDEBUG_HIGH = 3,
     };
 
-    //void _DEBUG_INFO(const TCHAR* format, ...);
     void _DEBUG_INFO(
         eDEBUG_INFO_LEVEL level,
         std::string date,
@@ -41,14 +40,12 @@ namespace TripleS
     private:
         void construct();
         void destruct();
-        std::string m_child_name;
     };
 
 
     template<typename T>
     TripleS::_DEBUG_PARENT<T>::_DEBUG_PARENT()
     {
-        m_child_name = std::string(typeid(T).name());
         construct();
     }
 
