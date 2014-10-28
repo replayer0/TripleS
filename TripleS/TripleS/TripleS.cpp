@@ -2,7 +2,7 @@
 
 #ifdef TRIPLE_S_DEBUG_MODE
 #include "vld.h"
-#endif // TRIPLE_S_DEBUG_MODE
+#endif // TRIPLE_S_DEBUG_MOD
 
 #include "TcpService.h"
 
@@ -20,7 +20,7 @@ int _tmain(int argc, _TCHAR* argv[])
     server.Start(desc);
 
     //wait
-    //server.Join();
+    server.Join();
 
 	return 0;
 }
