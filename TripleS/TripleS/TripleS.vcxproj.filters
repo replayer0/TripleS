@@ -93,6 +93,8 @@
     <ClInclude Include="Acceptor.h">
       <Filter>Service\Proactor</Filter>
     </ClInclude>
+    <ClInclude Include="Packet.h" />
+    <ClInclude Include="PacketHead.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Proactor.cpp">

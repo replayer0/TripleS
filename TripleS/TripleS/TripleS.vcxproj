@@ -96,6 +96,8 @@
     <ClInclude Include="Disconnector.h" />
     <ClInclude Include="IocpServer.h" />
     <ClInclude Include="Macro.h" />
+    <ClInclude Include="Packet.h" />
+    <ClInclude Include="PacketHead.h" />
     <ClInclude Include="Proactor.h" />
     <ClInclude Include="Act.h" />
     <ClInclude Include="BaseIocp_parameter.h" />
