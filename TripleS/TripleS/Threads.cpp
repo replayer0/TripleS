@@ -1,13 +1,13 @@
 #include "stdafx.h"
 
 #include "Threads.h"
-using namespace TripleS::util;
+using namespace TripleS;
 
-TripleS::util::Threads::Threads(int max_thread) : m_worker_threads(max_thread, nullptr)
+TripleS::Threads::Threads(int max_thread) : m_worker_threads(max_thread, nullptr)
 {
 }
 
-TripleS::util::Threads::~Threads()
+TripleS::Threads::~Threads()
 {
     _Release();
 }

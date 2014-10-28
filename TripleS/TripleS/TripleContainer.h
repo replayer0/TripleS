@@ -1,6 +1,5 @@
 #pragma once
-#ifndef _TRIFLE_S_UTIL_TRIPLE_CONTAINER_H_
-#define _TRIFLE_S_UTIL_TRIPLE_CONTAINER_H_
+
 /*******************************************************************************
 **  Name : TripleFastContainer, TripleSlowContainer
 **  Auth : 임상수
@@ -46,7 +45,8 @@
 *******************************************************************************/
 
 #include "tbb/tbb.h"
-namespace TripleS {namespace util{
+namespace TripleS 
+{
     template<typename key_tn, typename value_tn>
     class TripleFastContainer // 이터레이터 사용불가 삽입 삭제 검색만 가능
     {
@@ -93,9 +93,10 @@ namespace TripleS {namespace util{
         typedef tbb::concurrent_hash_map<KEY_TYPE, VALUE_TYPE> CONTAINER_TYPE;
         CONTAINER_TYPE m_container;
     };
-};};
+};
 
-namespace TripleS { namespace util{
+namespace TripleS 
+{
     template<typename key_tn, typename value_tn>
     class TripleSlowContainer // 삽입, 삭제, 검색, 순회 모두 가능 하나 최대 크기와 null_value를 지정해야함
     {
@@ -233,6 +234,4 @@ namespace TripleS { namespace util{
         volatile int m_cur_size;
         VALUE_TYPE m_null_value;
     };
-}; };
-
-#endif // _TRIFLE_S_UTIL_TRIPLE_CONTAINER_H_
+};

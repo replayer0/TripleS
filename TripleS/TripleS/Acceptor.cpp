@@ -5,9 +5,9 @@
 #include "TcpListenSocket.h"
 #include "TcpSocket.h"
 
-using namespace TripleS::iocp;
+using namespace TripleS;
 
-void TripleS::iocp::Acceptor::ProcEvent(Act* act, DWORD bytes_transferred)
+void TripleS::Acceptor::ProcEvent(Act* act, DWORD bytes_transferred)
 {
 	TcpAct& tcpact = *dynamic_cast<TcpAct*>(act);
 
@@ -23,7 +23,7 @@ void TripleS::iocp::Acceptor::ProcEvent(Act* act, DWORD bytes_transferred)
 	tcpsocket.Recv();
 }
 
-void TripleS::iocp::Acceptor::ProcError(Act* act, DWORD error)
+void TripleS::Acceptor::ProcError(Act* act, DWORD error)
 {
 	//assert(dynamic_cast<TcpAct*>(act));
 
@@ -36,14 +36,14 @@ void TripleS::iocp::Acceptor::ProcError(Act* act, DWORD error)
 	//printf("...에러처리 Acceptor s(%d) err(%d)\n", tcpsocket.GetSocket(), error );
 }
 
-void TripleS::iocp::Acceptor::Init(TripleS::type::P_TCPLISTENSOCKET tcplistensocket,
-    TripleS::type::P_PROACTOR proactor)
+void TripleS::Acceptor::Init(TripleS::P_TCPLISTENSOCKET tcplistensocket,
+    TripleS::P_PROACTOR proactor)
 {
 	TcpListenSocket_ = tcplistensocket;
 	Proactor_ = proactor;
 }
 
-void TripleS::iocp::Acceptor::Register(TcpSocket& acceptsocket)
+void TripleS::Acceptor::Register(TcpSocket& acceptsocket)
 {
 	DWORD byte_transferred;
 		

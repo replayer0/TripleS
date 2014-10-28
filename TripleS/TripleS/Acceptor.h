@@ -17,24 +17,23 @@
 // ±‚≈∏	:	Actor ¿« SubClass
 //--------------------------------------------------------
 
-namespace TripleS {
-    namespace iocp {
-        class Acceptor : public Actor DEBUG_PARENTS(Acceptor)
-        {
-        public:
-            Acceptor(){};
+namespace TripleS 
+{
+    class Acceptor : public Actor DEBUG_PARENTS(Acceptor)
+    {
+    public:
+        Acceptor(){};
 
-        public:
-            void ProcEvent(Act* act, DWORD bytes_transferred);
-            void ProcError(Act* act, DWORD error);
+    public:
+        void ProcEvent(Act* act, DWORD bytes_transferred);
+        void ProcError(Act* act, DWORD error);
 
-            void Init(TripleS::type::P_TCPLISTENSOCKET tcplistensocket, 
-                TripleS::type::P_PROACTOR proactor);
+        void Init(TripleS::P_TCPLISTENSOCKET tcplistensocket,
+            TripleS::P_PROACTOR proactor);
 
-            void Register(TcpSocket& acceptsocket);
+        void Register(TcpSocket& acceptsocket);
 
-        public:
-            TripleS::type::P_TCPLISTENSOCKET TcpListenSocket_;
-        };
-    }
+    public:
+        TripleS::P_TCPLISTENSOCKET TcpListenSocket_;
+    };
 }

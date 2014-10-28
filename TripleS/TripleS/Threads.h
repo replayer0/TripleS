@@ -1,6 +1,5 @@
 #pragma once
-#ifndef _TRIFLE_S_UTIL_THREADS_H_
-#define _TRIFLE_S_UTIL_THREADS_H_
+
 /*******************************************************************************
 **  Name : ThreadManager
 **  Auth : 임상수
@@ -20,55 +19,53 @@
 #include "tbb/tbb.h"
 #include "TripleContainer.h"
 
-namespace TripleS {
-    namespace util {
-        class Threads DEBUG_PARENT(Threads)
-        {
-        public:
-            Threads(int max_thread);
-            ~Threads();
+namespace TripleS 
+{
+    class Threads DEBUG_PARENT(Threads)
+    {
+    public:
+        Threads(int max_thread);
+        ~Threads();
 
-            typedef unsigned int THREAD_KEY;
-
-            template<class _Fn, class... _Args>
-            const bool Regist(THREAD_KEY key, _Fn&& _Fx, _Args&&... _Ax);
-            const bool IsRegist(const THREAD_KEY key);
-            const void Join();
-
-            // do not terminate thread 
-            // 원격 스레드 종료 요청 // 스레드 내부에서 이 함수에 대한 처리가 필수적이다.
-            const bool UnRegist(const THREAD_KEY key);
-
-        private:
-            Threads();
-            Threads(Threads const& object);
-            Threads& operator=(Threads const& object);
-
-            // call all thread UnRegist()
-            const void _Release();
-
-            typedef std::shared_ptr<std::thread>    THREAD_PTR;
-            typedef TripleS::util::TripleSlowContainer<THREAD_KEY, THREAD_PTR> THREAD_LIST;
-
-            THREAD_LIST m_worker_threads;
-        };
+        typedef unsigned int THREAD_KEY;
 
         template<class _Fn, class... _Args>
-        const bool Threads::Regist(THREAD_KEY key, _Fn&& _Fx, _Args&&... _Ax)
-        {
-            if (IsRegist(key) == true)
-            {
-                return false;
-            }
+        const bool Regist(THREAD_KEY key, _Fn&& _Fx, _Args&&... _Ax);
+        const bool IsRegist(const THREAD_KEY key);
+        const void Join();
 
-            THREAD_PTR thread_ptr(new std::thread(_Fx, _Ax...));
+        // do not terminate thread 
+        // 원격 스레드 종료 요청 // 스레드 내부에서 이 함수에 대한 처리가 필수적이다.
+        const bool UnRegist(const THREAD_KEY key);
 
-            if (m_worker_threads.insert(key, thread_ptr) == false)
-            {
-                return false;
-            }
-            return true;
-        }
+    private:
+        Threads();
+        Threads(Threads const& object);
+        Threads& operator=(Threads const& object);
+
+        // call all thread UnRegist()
+        const void _Release();
+
+        typedef std::shared_ptr<std::thread>    THREAD_PTR;
+        typedef TripleS::TripleSlowContainer<THREAD_KEY, THREAD_PTR> THREAD_LIST;
+
+        THREAD_LIST m_worker_threads;
     };
+
+    template<class _Fn, class... _Args>
+    const bool Threads::Regist(THREAD_KEY key, _Fn&& _Fx, _Args&&... _Ax)
+    {
+        if (IsRegist(key) == true)
+        {
+            return false;
+        }
+
+        THREAD_PTR thread_ptr(new std::thread(_Fx, _Ax...));
+
+        if (m_worker_threads.insert(key, thread_ptr) == false)
+        {
+            return false;
+        }
+        return true;
+    }
 };
-#endif // _TRIFLE_S_UTIL_THREADS_H_

@@ -8,13 +8,13 @@
 #include "Sender.h"
 #include "Receiver.h"
 
-TripleS::iocp::TcpSocket::TcpSocket()
+TripleS::TcpSocket::TcpSocket()
 {
 	Socket_ = INVALID_SOCKET;
 	Acceptor_ = NULL;
 }
 
-void TripleS::iocp::TcpSocket::Init()
+void TripleS::TcpSocket::Init()
 {
 	Socket_ = WSASocket( AF_INET, SOCK_STREAM, 0, NULL, 0, WSA_FLAG_OVERLAPPED );
 
@@ -26,7 +26,7 @@ void TripleS::iocp::TcpSocket::Init()
 	InitBuf();
 }
 
-void TripleS::iocp::TcpSocket::InitBuf()
+void TripleS::TcpSocket::InitBuf()
 {
 	wsaRecvBuf.buf = RecvBuf_;
 	wsaRecvBuf.len = BUFSIZE;
@@ -40,12 +40,12 @@ void TripleS::iocp::TcpSocket::InitBuf()
 	ZeroMemory( AcceptBuf_, BUFSIZE );
 }
 
-void TripleS::iocp::TcpSocket::InitAct(
-    TripleS::type::P_PROACTOR proactor,
-    TripleS::type::P_ACCEPTOR acceptor,
-    TripleS::type::P_DISCONNECTOR disconnector,
-    TripleS::type::P_SENDER sender,
-    TripleS::type::P_RECEIVER receiver
+void TripleS::TcpSocket::InitAct(
+    TripleS::P_PROACTOR proactor,
+    TripleS::P_ACCEPTOR acceptor,
+    TripleS::P_DISCONNECTOR disconnector,
+    TripleS::P_SENDER sender,
+    TripleS::P_RECEIVER receiver
     )
 {
 	Proactor_		= proactor;
@@ -60,12 +60,12 @@ void TripleS::iocp::TcpSocket::InitAct(
 	Act_[ACT_DISCONNECT].Init( Disconnector_, this );
 }
 
-SOCKET TripleS::iocp::TcpSocket::GetSocket() const
+SOCKET TripleS::TcpSocket::GetSocket() const
 {
 	return Socket_;
 }
 
-void TripleS::iocp::TcpSocket::Recv()
+void TripleS::TcpSocket::Recv()
 {
 	DWORD recvbytes = 0;
 	DWORD flags = 0;
@@ -85,7 +85,7 @@ void TripleS::iocp::TcpSocket::Recv()
 	}
 }
 
-void TripleS::iocp::TcpSocket::Send(BYTE* buf, int buflen)
+void TripleS::TcpSocket::Send(BYTE* buf, int buflen)
 {
 	DWORD sentbytes = 0;
 	wsaSendBuf.buf	= reinterpret_cast<char*>(buf);
@@ -105,12 +105,12 @@ void TripleS::iocp::TcpSocket::Send(BYTE* buf, int buflen)
 	}
 }
 
-void TripleS::iocp::TcpSocket::Reuse()
+void TripleS::TcpSocket::Reuse()
 {
 	Acceptor_->Register( *this );
 }
 
-void TripleS::iocp::TcpSocket::Disconnect()
+void TripleS::TcpSocket::Disconnect()
 {
 	BOOL ret = TransmitFile(	
 		Socket_, 

@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Actor.h"
-
 #include "TcpAct.h"
 #include "TcpSocket.h"
 //--------------------------------------------------------
@@ -15,44 +14,41 @@
 
 namespace TripleS
 {
-    namespace iocp
+    class Sender : public Actor DEBUG_PARENTS(Sender)
     {
-        class Sender : public Actor DEBUG_PARENTS(Sender)
+    public:
+        Sender(){};
+
+    public:
+        void ProcEvent(Act* act, DWORD bytes_transferred)
         {
-        public:
-            Sender(){};
+            // assert(dynamic_cast<TcpAct*>(act));
 
-        public:
-            void ProcEvent(Act* act, DWORD bytes_transferred)
-            {
-                // assert(dynamic_cast<TcpAct*>(act));
+            TcpAct& tcpact = *dynamic_cast<TcpAct*>(act);
 
-                TcpAct& tcpact = *dynamic_cast<TcpAct*>(act);
+            // assert(tcpact.TcpSocket_);
 
-                // assert(tcpact.TcpSocket_);
+            TcpSocket& tcpsocket = *tcpact.TcpSocket_;
 
-                TcpSocket& tcpsocket = *tcpact.TcpSocket_;
+            //printf("...Sender (%d byte) s(%d)\n", bytes_transferred, tcpsocket.GetSocket() );
+        }
 
-                //printf("...Sender (%d byte) s(%d)\n", bytes_transferred, tcpsocket.GetSocket() );
-            }
+        void ProcError(Act* act, DWORD error)
+        {
+            // assert(dynamic_cast<TcpAct*>(act));
 
-            void ProcError(Act* act, DWORD error)
-            {
-                // assert(dynamic_cast<TcpAct*>(act));
+            TcpAct& tcpact = *dynamic_cast<TcpAct*>(act);
 
-                TcpAct& tcpact = *dynamic_cast<TcpAct*>(act);
+            // assert(tcpact.TcpSocket_);
 
-                // assert(tcpact.TcpSocket_);
+            TcpSocket& tcpsocket = *tcpact.TcpSocket_;
 
-                TcpSocket& tcpsocket = *tcpact.TcpSocket_;
+            //printf("...俊矾贸府 Sender s(%d) err(%d)\n", tcpsocket.GetSocket(), error);
+        }
 
-                //printf("...俊矾贸府 Sender s(%d) err(%d)\n", tcpsocket.GetSocket(), error);
-            }
-
-            void Init(TripleS::type::P_PROACTOR proactor)
-            {
-                Proactor_ = proactor;
-            }
-        };
-    }
+        void Init(TripleS::P_PROACTOR proactor)
+        {
+            Proactor_ = proactor;
+        }
+    };
 }

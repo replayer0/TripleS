@@ -2,12 +2,12 @@
 #include "TcpListenSocket.h"
 #include "Proactor.h"
 
-TripleS::iocp::TcpListenSocket::TcpListenSocket()
+TripleS::TcpListenSocket::TcpListenSocket()
 {
     m_backlog_size = 0;
 }
 
-void TripleS::iocp::TcpListenSocket::Init(WORD port, int backlogsize /*= 0*/)
+void TripleS::TcpListenSocket::Init(WORD port, int backlogsize /*= 0*/)
 {
     m_listen_socket = WSASocket(AF_INET, SOCK_STREAM, 0, NULL, 0, WSA_FLAG_OVERLAPPED);
 
@@ -18,7 +18,7 @@ void TripleS::iocp::TcpListenSocket::Init(WORD port, int backlogsize /*= 0*/)
     m_backlog_size = backlogsize;
 }
 
-void TripleS::iocp::TcpListenSocket::Listen(TripleS::type::P_PROACTOR proactor)
+void TripleS::TcpListenSocket::Listen(TripleS::P_PROACTOR proactor)
 {
     proactor->Register(reinterpret_cast<HANDLE>(m_listen_socket));
 
@@ -26,7 +26,7 @@ void TripleS::iocp::TcpListenSocket::Listen(TripleS::type::P_PROACTOR proactor)
     listen(m_listen_socket, m_backlog_size);
 }
 
-SOCKET TripleS::iocp::TcpListenSocket::GetSocket() const
+SOCKET TripleS::TcpListenSocket::GetSocket() const
 {
     return m_listen_socket;
 }

@@ -1,6 +1,5 @@
 #pragma once
-#ifndef _TRIPLE_S_PROACTOR_H
-#define _TRIPLE_S_PROACTOR_H
+
 /*******************************************************************************
 **  Name : BaseIOCP
 **  Auth : ÀÓ»ó¼ö
@@ -29,30 +28,26 @@
 #include "FowardDeclaration.h"
 
 namespace TripleS { 
-    namespace iocp {
-        class Proactor DEBUG_PARENT(Proactor)
-        {
-        public:
-            Proactor(TripleS::type::P_THREADS p_threads);
-            ~Proactor();
+    class Proactor DEBUG_PARENT(Proactor)
+    {
+    public:
+        Proactor(TripleS::P_THREADS p_threads);
+        ~Proactor();
 
-            const bool Init();
-            const void Register(const HANDLE handle);
-            const BOOL PostPrivateEvent(const DWORD completion_key, Act* p_act);
-            const void ProcEvents(ThreadParameter* input_parma);
+        const bool Init();
+        const void Register(const HANDLE handle);
+        const BOOL PostPrivateEvent(const DWORD completion_key, Act* p_act);
+        const void ProcEvents(ThreadParameter* input_parma);
 
-            static UINT WINAPI ThreadProc(ThreadParameter* input_param);
+        static UINT WINAPI ThreadProc(ThreadParameter* input_param);
 
-        private:
-            Proactor(Proactor const& object);
-            Proactor& operator=(Proactor const& object);
+    private:
+        Proactor(Proactor const& object);
+        Proactor& operator=(Proactor const& object);
 
-            bool _Release();
+        bool _Release();
 
-            HANDLE m_handle_iocp;
-            TripleS::type::P_THREADS m_threads;
-        };
-    }; 
+        HANDLE m_handle_iocp;
+        TripleS::P_THREADS m_threads;
+    };
 };
-
-#endif // _TRIPLE_S_PROACTOR_H

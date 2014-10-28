@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Actor.h"
-
 #include "TcpSocket.h"
 
 //--------------------------------------------------------
@@ -15,46 +14,43 @@
 
 namespace TripleS
 {
-    namespace iocp
+    class Disconnector : public Actor DEBUG_PARENTS(Disconnector)
     {
-        class Disconnector : public Actor DEBUG_PARENTS(Disconnector)
+    public:
+        Disconnector(){}
+
+    public:
+        void ProcEvent(Act* act, DWORD bytes_transferred)
         {
-        public:
-            Disconnector(){}
+            TcpAct& tcpact = *dynamic_cast<TcpAct*>(act);
 
-        public:
-            void ProcEvent(Act* act, DWORD bytes_transferred)
-            {
-                TcpAct& tcpact = *dynamic_cast<TcpAct*>(act);
+            //assert(tcpact.TcpSocket_);
+            TcpSocket& tcpsocket = *tcpact.TcpSocket_;
 
-                //assert(tcpact.TcpSocket_);
-                TcpSocket& tcpsocket = *tcpact.TcpSocket_;
+            //printf("...Disconnector s(%d)\n", tcpsocket.GetSocket());
 
-                //printf("...Disconnector s(%d)\n", tcpsocket.GetSocket());
+            //assert(tcpsocket.Acceptor_);
 
-                //assert(tcpsocket.Acceptor_);
+            // 소켓 재사용
+            tcpsocket.Reuse();
+        }
 
-                // 소켓 재사용
-                tcpsocket.Reuse();
-            }
+        void ProcError(Act* act, DWORD error)
+        {
+            //assert(dynamic_cast<TcpAct*>(act));
 
-            void ProcError(Act* act, DWORD error)
-            {
-                //assert(dynamic_cast<TcpAct*>(act));
+            TcpAct& tcpact = *dynamic_cast<TcpAct*>(act);
 
-                TcpAct& tcpact = *dynamic_cast<TcpAct*>(act);
+            //assert(tcpact.TcpSocket_);
 
-                //assert(tcpact.TcpSocket_);
+            TcpSocket& tcpsocket = *tcpact.TcpSocket_;
 
-                TcpSocket& tcpsocket = *tcpact.TcpSocket_;
+            printf("...에러처리 Disconnector s(%d) err(%d)\n", tcpsocket.GetSocket(), error);
+        }
 
-                printf("...에러처리 Disconnector s(%d) err(%d)\n", tcpsocket.GetSocket(), error);
-            }
-
-            void Init(TripleS::type::P_PROACTOR proactor)
-            {
-                Proactor_ = proactor;
-            }
-        };
-    }
+        void Init(TripleS::P_PROACTOR proactor)
+        {
+            Proactor_ = proactor;
+        }
+    };
 }

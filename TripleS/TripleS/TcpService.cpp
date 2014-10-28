@@ -9,15 +9,15 @@
 #include "Sender.h"
 #include "Receiver.h"
 
-void TripleS::iocp::TcpService::Start(BaseIocpDesc desc)
+void TripleS::TcpService::Start(BaseIocpDesc desc)
 {
-    m_threads = TripleS::type::P_THREADS(new TripleS::util::Threads(128));
-    m_proactor = TripleS::type::P_PROACTOR(new Proactor(m_threads));
-    m_tcp_listen_socket = TripleS::type::P_TCPLISTENSOCKET(new TcpListenSocket);
-    m_acceptor = TripleS::type::P_ACCEPTOR(new Acceptor);
-    m_disconnector = TripleS::type::P_DISCONNECTOR(new Disconnector);
-    m_sender = TripleS::type::P_SENDER(new Sender);
-    m_receiver = TripleS::type::P_RECEIVER(new Receiver);
+    m_threads = TripleS::P_THREADS(new TripleS::Threads(128));
+    m_proactor = TripleS::P_PROACTOR(new Proactor(m_threads));
+    m_tcp_listen_socket = TripleS::P_TCPLISTENSOCKET(new TcpListenSocket);
+    m_acceptor = TripleS::P_ACCEPTOR(new Acceptor);
+    m_disconnector = TripleS::P_DISCONNECTOR(new Disconnector);
+    m_sender = TripleS::P_SENDER(new Sender);
+    m_receiver = TripleS::P_RECEIVER(new Receiver);
 
     m_proactor->Init();
 
@@ -56,7 +56,7 @@ void TripleS::iocp::TcpService::Start(BaseIocpDesc desc)
     }
 }
 
-void TripleS::iocp::TcpService::Join()
+void TripleS::TcpService::Join()
 {
     m_threads->Join();
 }

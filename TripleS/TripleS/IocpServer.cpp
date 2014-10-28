@@ -3,25 +3,25 @@
 #include "Proactor.h"
 #include "Threads.h"
 
-TripleS::iocp::Iocp::Iocp(TripleS::type::P_PROACTOR p_proactor
-    , TripleS::type::P_THREADS p_threads)
-    : m_proactor(TripleS::type::P_PROACTOR(p_proactor))
-    , m_threads(TripleS::type::P_THREADS(p_threads))
+TripleS::Iocp::Iocp(TripleS::P_PROACTOR p_proactor
+    , TripleS::P_THREADS p_threads)
+    : m_proactor(TripleS::P_PROACTOR(p_proactor))
+    , m_threads(TripleS::P_THREADS(p_threads))
 {
     //
 }
 
-TripleS::iocp::Iocp::Iocp()
+TripleS::Iocp::Iocp()
 {
-    m_threads = TripleS::type::P_THREADS(new TripleS::util::Threads(128));
-    m_proactor = TripleS::type::P_PROACTOR(new Proactor(m_threads));
+    m_threads = TripleS::P_THREADS(new TripleS::Threads(128));
+    m_proactor = TripleS::P_PROACTOR(new Proactor(m_threads));
 }
 
-TripleS::iocp::Iocp::~Iocp()
+TripleS::Iocp::~Iocp()
 {
 }
 
-void TripleS::iocp::Iocp::Start(BaseIocpDesc desc)
+void TripleS::Iocp::Start(BaseIocpDesc desc)
 {
     m_proactor->Init();
     
@@ -39,7 +39,7 @@ void TripleS::iocp::Iocp::Start(BaseIocpDesc desc)
     }
 }
 
-void TripleS::iocp::Iocp::Join()
+void TripleS::Iocp::Join()
 {
     m_threads->Join();
 }

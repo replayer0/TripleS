@@ -9,10 +9,10 @@
 int _tmain(int argc, _TCHAR* argv[])
 {
     //create
-    TripleS::iocp::TcpService server;
+    TripleS::TcpService server;
     
     //define desc
-    TripleS::iocp::BaseIocpDesc desc;
+    TripleS::BaseIocpDesc desc;
     desc.m_begin_thread_count = 4;
     desc.m_maximun_thread_count = 4;// std::thread::hardware_concurrency() * 2;
     

@@ -5,9 +5,9 @@
 #include "Proactor.h"
 #include "Threads.h"
 
-using namespace TripleS::iocp;
+using namespace TripleS;
 
-Proactor::Proactor(TripleS::type::P_THREADS p_threads)
+Proactor::Proactor(TripleS::P_THREADS p_threads)
     : m_threads(p_threads)
 {
     m_handle_iocp = NULL;
@@ -101,12 +101,12 @@ const void Proactor::ProcEvents(ThreadParameter* input_param)
     return;
 }
 
-const BOOL TripleS::iocp::Proactor::PostPrivateEvent(const DWORD completion_key, Act* p_act)
+const BOOL TripleS::Proactor::PostPrivateEvent(const DWORD completion_key, Act* p_act)
 {
     return PostQueuedCompletionStatus(m_handle_iocp, 0, completion_key, p_act);
 }
 
-const void TripleS::iocp::Proactor::Register(const HANDLE handle)
+const void TripleS::Proactor::Register(const HANDLE handle)
 {
     CreateIoCompletionPort(handle, m_handle_iocp, 0, 0);
 }

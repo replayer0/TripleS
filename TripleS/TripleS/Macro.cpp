@@ -20,10 +20,10 @@
 
 /* SHOW DEBUG INFO LOCK */
 #ifdef TRIPLE_S_DEBUG_MODE
-TripleS::util::Lock g_debug_info_lock;
+TripleS::Lock g_debug_info_lock;
 #endif // TRIPLE_S_DEBUG_MODE
 
-void TripleS::util::_DEBUG_INFO(
+void TripleS::_DEBUG_INFO(
     eDEBUG_INFO_LEVEL level,
     std::string date,
     std::string file,
@@ -36,7 +36,7 @@ void TripleS::util::_DEBUG_INFO(
         return;
     }
 
-    TripleS::util::AutoLock autolock(&g_debug_info_lock);
+    TripleS::AutoLock autolock(&g_debug_info_lock);
 
     va_list args;
     va_start(args, format);
