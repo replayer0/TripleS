@@ -104,6 +104,7 @@ copy /Y "$(SolutionDir)TripleS\vld.ini" "$(TargetDir)";</Command>
     <ClInclude Include="Macro.h" />
     <ClInclude Include="Packet.h" />
     <ClInclude Include="PacketHead.h" />
+    <ClInclude Include="PacketStream.h" />
     <ClInclude Include="Proactor.h" />
     <ClInclude Include="Act.h" />
     <ClInclude Include="BaseIocp_parameter.h" />

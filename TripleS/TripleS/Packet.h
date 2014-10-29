@@ -32,15 +32,46 @@ public: \
 #define PACKET_DECL_END };
 
 
+#pragma push( push, 1 )
+struct PacketInfo
+{
+	// 패킷 타입.(프로토콜 코드)
+	UShort code;
+
+};
+#pragma  pop(pop)
+
+
+
 struct Packet : public PacketHead
 {
-	// 패킷이 어떤타입인지.?
-	// 패킷에 송신측의 정보를 담을 것인지? (ex :  sessionIndex , 등등.. )
-	// 	
+	UInt32 idx; // 소켓 세션인덱스
+
+	Packet()
+	{
+		Reset();
+	}
+
+	virtual ~Packet(){}
 
 	virtual void Reset()
 	{
-		// 내용.
+		idx = 0;
+	}
+
+	
+	virtual Bool Input( PacketStream& ps )
+	{
+		ps.Write( GetPacketType() );
+		return true;
+	}
+
+	virtual Bool Output( PacketStream& ps )
+	{
+		UShort code = 0;
+		ps.Read( code );
+		SetHead( code );
+		return true;
 	}
 };
 
@@ -52,8 +83,15 @@ PACKET_DECL_BEGIN( SamplePacket, Packet, 10 )
 		age = 0;
 	}
 
-	// PacketStream으로 버퍼에 쓰기 동작.
-	// PacketStream으로 버퍼에서 읽기 동작.
-	// TODO...::
+	Bool Input( PacketStream& ps )
+	{
+		super::Input( ps );
+		ps.Write( age );
+	}
 
+	Bool Output( PacketStream& ps )
+	{
+		super::Output( ps );
+		ps.Read( age );
+	}
 PACKET_DECL_END
