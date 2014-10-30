@@ -46,7 +46,7 @@ void TripleS::TcpService::Start(service_desc desc)
     m_receiver->Init(m_proactor);
 
 
-    for (unsigned int i = 0; i < desc.m_accept_pool_size; i++)
+    /*for (unsigned int i = 0; i < desc.m_accept_pool_size; i++)
     {
         TcpSocket* socket = new TcpSocket;
         socket->Init();
@@ -54,10 +54,26 @@ void TripleS::TcpService::Start(service_desc desc)
 
         m_acceptor->Register(*socket);
         // 여기 socket에 대한 메모리 해제가 안되서 끝날떄 릭이 발생한다.
-    }
+    }*/
 }
 
 void TripleS::TcpService::Join()
 {
     m_threads->Join();
+}
+
+void TripleS::TcpService::Release()
+{
+    m_tcp_listen_socket.reset();
+    m_proactor.reset();
+    m_acceptor.reset();
+    m_disconnector.reset();
+    m_sender.reset();
+    m_receiver.reset();
+    m_threads.reset();
+}
+
+TripleS::TcpService::~TcpService()
+{
+    Release();
 }

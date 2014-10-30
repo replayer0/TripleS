@@ -23,8 +23,11 @@ namespace TripleS
     class TcpService : public Service DEBUG_PARENTS(TcpService)
     {
     public:
+        ~TcpService();
+
         void Start(service_desc desc);
         void Join();
+        void Release();
 
     private:
         TripleS::P_TCPLISTENSOCKET m_tcp_listen_socket;
