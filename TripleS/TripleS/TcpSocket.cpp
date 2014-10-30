@@ -10,15 +10,15 @@
 
 TripleS::TcpSocket::TcpSocket()
 {
-	Socket_ = INVALID_SOCKET;
-	Acceptor_ = NULL;
+	m_socket = INVALID_SOCKET;
+	m_acceptor = NULL;
 }
 
 void TripleS::TcpSocket::Init()
 {
-	Socket_ = WSASocket( AF_INET, SOCK_STREAM, 0, NULL, 0, WSA_FLAG_OVERLAPPED );
+	m_socket = WSASocket( AF_INET, SOCK_STREAM, 0, NULL, 0, WSA_FLAG_OVERLAPPED );
 
-	if( Socket_ == INVALID_SOCKET )
+	if( m_socket == INVALID_SOCKET )
 	{
 		printf("WSASocket() Error!!! err(%d)\n", WSAGetLastError());
 	}
@@ -48,21 +48,21 @@ void TripleS::TcpSocket::InitAct(
     Receiver* receiver
     )
 {
-    Proactor_ = proactor;
-    Acceptor_ = acceptor;
-    Disconnector_ = disconnector;
-    Sender_ = sender;
-    Receiver_ = receiver;
+    m_proactor = proactor;
+    m_acceptor = acceptor;
+    m_disconnector = disconnector;
+    m_sender = sender;
+    m_receiver = receiver;
 
-	Act_[ACT_ACCEPT].Init( Acceptor_, this );
-	Act_[ACT_RECV].Init( Receiver_, this );
-	Act_[ACT_SEND].Init( Sender_, this );
-	Act_[ACT_DISCONNECT].Init( Disconnector_, this );
+	Act_[ACT_ACCEPT].Init( m_acceptor, this );
+	Act_[ACT_RECV].Init( m_receiver, this );
+	Act_[ACT_SEND].Init( m_sender, this );
+	Act_[ACT_DISCONNECT].Init( m_disconnector, this );
 }
 
 SOCKET TripleS::TcpSocket::GetSocket() const
 {
-	return Socket_;
+	return m_socket;
 }
 
 void TripleS::TcpSocket::Recv()
@@ -71,7 +71,7 @@ void TripleS::TcpSocket::Recv()
 	DWORD flags = 0;
 
 
-	INT ret	= WSARecv( Socket_, &(wsaRecvBuf), 1, &recvbytes, &flags, static_cast<OVERLAPPED*>(&(Act_[ACT_RECV])), NULL );
+	INT ret	= WSARecv( m_socket, &(wsaRecvBuf), 1, &recvbytes, &flags, static_cast<OVERLAPPED*>(&(Act_[ACT_RECV])), NULL );
 
 	if( ret != 0 )
 	{
@@ -79,7 +79,7 @@ void TripleS::TcpSocket::Recv()
 
 		if( error != ERROR_IO_PENDING )
 		{
-			printf( "WSARecv() Error!!! s(%d) err(%d)\n", Socket_, error );
+			printf( "WSARecv() Error!!! s(%d) err(%d)\n", m_socket, error );
 			Disconnect();
 		}
 	}
@@ -91,7 +91,7 @@ void TripleS::TcpSocket::Send(BYTE* buf, int buflen)
 	wsaSendBuf.buf	= reinterpret_cast<char*>(buf);
 	wsaSendBuf.len	= buflen;
 
-	INT ret	= WSASend(Socket_, &(wsaSendBuf), 1, &sentbytes, 0, static_cast<OVERLAPPED*>(&(Act_[ACT_SEND])), NULL);
+	INT ret	= WSASend(m_socket, &(wsaSendBuf), 1, &sentbytes, 0, static_cast<OVERLAPPED*>(&(Act_[ACT_SEND])), NULL);
 
 	if( ret != 0 )
 	{
@@ -99,7 +99,7 @@ void TripleS::TcpSocket::Send(BYTE* buf, int buflen)
 
 		if( error != ERROR_IO_PENDING )
 		{
-			printf( "WSASend() Error!!! s(%d) err(%d)\n", Socket_, error );
+			printf( "WSASend() Error!!! s(%d) err(%d)\n", m_socket, error );
 			Disconnect();
 		}
 	}
@@ -107,13 +107,13 @@ void TripleS::TcpSocket::Send(BYTE* buf, int buflen)
 
 void TripleS::TcpSocket::Reuse()
 {
-	Acceptor_->Register( *this );
+	m_acceptor->Register( *this );
 }
 
 void TripleS::TcpSocket::Disconnect()
 {
 	BOOL ret = TransmitFile(	
-		Socket_, 
+		m_socket, 
 		NULL, 
 		0, 
 		0, 
@@ -128,7 +128,7 @@ void TripleS::TcpSocket::Disconnect()
 
 		if( error != ERROR_IO_PENDING )
 		{
-			printf("DisconnectEx Error!!! s(%d), err(%d)\n", Socket_, error);
+			printf("DisconnectEx Error!!! s(%d), err(%d)\n", m_socket, error);
 		}
 	}
 }

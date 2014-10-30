@@ -61,14 +61,13 @@ namespace TripleS
         WSABUF			wsaSendBuf;
 
     private:
-        SOCKET			Socket_;
-        SOCKADDR_IN		Addr_;
+        SOCKET			m_socket;
+        SOCKADDR_IN		m_addr;
 
-        Proactor* Proactor_;
-        Acceptor* Acceptor_;
-        Disconnector* Disconnector_;
-        Sender* Sender_;
-        Receiver* Receiver_;
-
+        Proactor* m_proactor;
+        Acceptor* m_acceptor;
+        Disconnector* m_disconnector;
+        Sender* m_sender;
+        Receiver* m_receiver;
     };
 }
