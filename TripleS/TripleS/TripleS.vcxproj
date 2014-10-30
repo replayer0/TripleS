@@ -100,7 +100,6 @@ copy /Y "$(SolutionDir)TripleS\vld.ini" "$(TargetDir)";</Command>
     <ClInclude Include="Actor.h" />
     <ClInclude Include="AutoLock.h" />
     <ClInclude Include="Disconnector.h" />
-    <ClInclude Include="IocpServer.h" />
     <ClInclude Include="Macro.h" />
     <ClInclude Include="Packet.h" />
     <ClInclude Include="PacketHead.h" />
@@ -125,7 +124,6 @@ copy /Y "$(SolutionDir)TripleS\vld.ini" "$(TargetDir)";</Command>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Acceptor.cpp" />
-    <ClCompile Include="IocpServer.cpp" />
     <ClCompile Include="Macro.cpp" />
     <ClCompile Include="Proactor.cpp" />
     <ClCompile Include="stdafx.cpp">

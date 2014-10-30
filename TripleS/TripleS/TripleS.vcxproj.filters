@@ -84,9 +84,6 @@
     <ClInclude Include="BaseIocp_parameter.h">
       <Filter>Service\Proactor</Filter>
     </ClInclude>
-    <ClInclude Include="IocpServer.h">
-      <Filter>Service</Filter>
-    </ClInclude>
     <ClInclude Include="Service.h">
       <Filter>Service</Filter>
     </ClInclude>
@@ -127,9 +124,6 @@
     </ClCompile>
     <ClCompile Include="TcpSocket.cpp">
       <Filter>Service\Proactor\Tcp</Filter>
-    </ClCompile>
-    <ClCompile Include="IocpServer.cpp">
-      <Filter>Service</Filter>
     </ClCompile>
     <ClCompile Include="Acceptor.cpp">
       <Filter>Service\Proactor</Filter>
