@@ -24,7 +24,7 @@ namespace TripleS
             m_actor->ProcError(this, error);
         }
 
-        void Init(std::shared_ptr<Actor> actor, TcpSocket* tcpsocket)
+        void Init(Actor* actor, TcpSocket* tcpsocket)
         {
             m_actor = actor;
             TcpSocket_ = tcpsocket;

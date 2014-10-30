@@ -7,15 +7,7 @@
 #include "TcpSocket.h"
 #include "FowardDeclaration.h"
 
-//--------------------------------------------------------
-// 이름 :	Acceptor
-//
-// 역할 :	1)  ACT의 Complete()에서 ProcEvent() 콜
-//			2)	ACT의 Error()에서 ProcError() 콜
-//			3)  Register()을 통해 AcceptEx() 소켓풀에 넣음
-//
-// 기타	:	Actor 의 SubClass
-//--------------------------------------------------------
+#include <queue>
 
 namespace TripleS 
 {
@@ -23,6 +15,7 @@ namespace TripleS
     {
     public:
         Acceptor(){};
+        ~Acceptor();
 
     public:
         void ProcEvent(Act* act, DWORD bytes_transferred);
@@ -35,5 +28,6 @@ namespace TripleS
 
     public:
         TripleS::P_TCPLISTENSOCKET TcpListenSocket_;
+        std::queue<TcpSocket*> m_sockets;
     };
 }

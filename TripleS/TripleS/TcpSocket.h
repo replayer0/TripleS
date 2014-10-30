@@ -18,15 +18,18 @@ namespace TripleS
 
     public:
         TcpSocket();
+        ~TcpSocket()
+        {
+        }
 
     public:
         void Init();
         void InitBuf();
-        void InitAct(TripleS::P_PROACTOR proactor, 
-            TripleS::P_ACCEPTOR acceptor,
-            TripleS::P_DISCONNECTOR disconnector,
-            TripleS::P_SENDER sender,
-            TripleS::P_RECEIVER receiver);
+        void InitAct(Proactor* proactor, 
+            Acceptor* acceptor,
+            Disconnector* disconnector,
+            Sender* sender,
+            Receiver* receiver);
 
         SOCKET GetSocket() const;
 
@@ -61,11 +64,11 @@ namespace TripleS
         SOCKET			Socket_;
         SOCKADDR_IN		Addr_;
 
-        TripleS::P_PROACTOR Proactor_;
-        TripleS::P_ACCEPTOR Acceptor_;
-        TripleS::P_DISCONNECTOR Disconnector_;
-        TripleS::P_SENDER Sender_;
-        TripleS::P_RECEIVER Receiver_;
+        Proactor* Proactor_;
+        Acceptor* Acceptor_;
+        Disconnector* Disconnector_;
+        Sender* Sender_;
+        Receiver* Receiver_;
 
     };
 }

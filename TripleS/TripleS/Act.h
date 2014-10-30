@@ -26,6 +26,6 @@ namespace TripleS
         int io_type; // todo - connect functor
 
     protected:
-        std::shared_ptr<Actor> m_actor;
+        Actor* m_actor;
     };
 };

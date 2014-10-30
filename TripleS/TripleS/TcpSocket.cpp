@@ -41,18 +41,18 @@ void TripleS::TcpSocket::InitBuf()
 }
 
 void TripleS::TcpSocket::InitAct(
-    TripleS::P_PROACTOR proactor,
-    TripleS::P_ACCEPTOR acceptor,
-    TripleS::P_DISCONNECTOR disconnector,
-    TripleS::P_SENDER sender,
-    TripleS::P_RECEIVER receiver
+    Proactor* proactor,
+    Acceptor* acceptor,
+    Disconnector* disconnector,
+    Sender* sender,
+    Receiver* receiver
     )
 {
-	Proactor_		= proactor;
-	Acceptor_		= acceptor;
-	Disconnector_	= disconnector;
-	Sender_			= sender;
-	Receiver_		= receiver;
+    Proactor_ = proactor;
+    Acceptor_ = acceptor;
+    Disconnector_ = disconnector;
+    Sender_ = sender;
+    Receiver_ = receiver;
 
 	Act_[ACT_ACCEPT].Init( Acceptor_, this );
 	Act_[ACT_RECV].Init( Receiver_, this );
