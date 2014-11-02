@@ -1,97 +1,69 @@
 #pragma once
 
+
 #include "PacketHead.h"
+#include "PacketStream.h"
 
-#ifndef _DEBUG
-#define PACKET_DECL_BEGIN( _packet_class, _super_class, _protocol ) \
-struct _packet_class : public _super_class {	\
-private: \
-	typedef _super_class super; \
-public: \
-	static const UShort cProtocol = _protocol; \
-	_packet_class() { \
-		SetHead( cProtocol ); \
-		Reset(); \
-	} \
-
-	virtual ~_packet_class() {}
-#else
-#define PACKET_DECL_BEGIN( _packet_class, _super_class, _protocol ) \
-struct _packet_class : public _super_class { \
-private: \
-	typedef _super_class super; \
-public: \
-	static const UShort cProtocol = _protocol; \
-	_packet_class() { \
-		SetHead( cProtocol ); \
-		Reset(); \
-	} \
-	virtual ~_packet_class() {} \
-
-#endif
-#define PACKET_DECL_END };
-
-
-#pragma push( push, 1 )
-struct PacketInfo
+namespace TripleS
 {
-	// 패킷 타입.(프로토콜 코드)
-	UShort code;
 
-};
-#pragma  pop(pop)
-
-
-
-struct Packet : public PacketHead
-{
-	UInt32 idx; // 소켓 세션인덱스
-
-	Packet()
+#pragma pack( push, 1 )
+	struct PacketInfo
 	{
-		Reset();
-	}
+		// 패킷 타입.(프로토콜 코드)
+		UShort code;
 
-	virtual ~Packet(){}
+	};
+#pragma  pack(pop)
 
-	virtual void Reset()
+	struct Packet : public PacketHead < UInt32 >
 	{
-		idx = 0;
-	}
+		UInt32 idx; // 소켓 세션인덱스
 
-	
-	virtual Bool Input( PacketStream& ps )
-	{
-		ps.Write( GetPacketType() );
-		return true;
-	}
+		Packet()
+		{
+			Reset();
+		}
 
-	virtual Bool Output( PacketStream& ps )
-	{
-		UShort code = 0;
-		ps.Read( code );
-		SetHead( code );
-		return true;
-	}
-};
+		virtual ~Packet(){}
+
+		virtual void Reset()
+		{
+			idx = 0;
+		}
 
 
-PACKET_DECL_BEGIN( SamplePacket, Packet, 10 )
-	UInt32 age = 30;
-	void Reset()
-	{
-		age = 0;
-	}
+		virtual Bool Input( PacketStream& ps )
+		{
+			ps.Write( GetPacketType() );
+			return true;
+		}
 
-	Bool Input( PacketStream& ps )
-	{
-		super::Input( ps );
-		ps.Write( age );
-	}
+		virtual Bool Output( PacketStream& ps )
+		{
+			UShort code = 0;
+			ps.Read( code );
+			SetHead( code );
+			return true;
+		}
+	};
 
-	Bool Output( PacketStream& ps )
-	{
-		super::Output( ps );
-		ps.Read( age );
-	}
-PACKET_DECL_END
+
+ 	struct SamplePacket : public Packet
+ 	{
+ 		static const UInt32 cProtocol = 10;
+ 
+ 		UInt32 age = 30;
+ 
+ 		SamplePacket()
+ 		{
+ 			SetHead( cProtocol );
+ 			Reset();
+ 		}
+ 
+ 		void Reset()
+ 		{
+ 			age = 0;
+ 		}
+ 	};
+}

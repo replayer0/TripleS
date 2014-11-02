@@ -99,6 +99,7 @@ copy /Y "$(SolutionDir)TripleS\vld.ini" "$(TargetDir)";</Command>
     <ClInclude Include="Acceptor.h" />
     <ClInclude Include="Actor.h" />
     <ClInclude Include="AutoLock.h" />
+    <ClInclude Include="DefineTypes.h" />
     <ClInclude Include="Disconnector.h" />
     <ClInclude Include="Macro.h" />
     <ClInclude Include="Packet.h" />

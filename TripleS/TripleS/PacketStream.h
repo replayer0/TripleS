@@ -1,6 +1,5 @@
 #pragma once
 
-
 namespace TripleS
 {
 	class PacketStream
@@ -97,19 +96,29 @@ namespace TripleS
 			assert( BufferEndPos == DataBuffer + Capacity );
 			assert( BufferPos == DataBuffer );
 		}
-		
-		UInt32 Write( const char* buf, UInt32 count );
-		UInt32 Write( const Byte* buf, UInt32 count );
-		UInt32 Read( char* buf, UInt32 count );
-		UInt32 Read( Byte* buf, UInt32 count );
-		
-		//string, wstring,은 따로 해둬야하나?.. 템플릿으로 다 가능할까?.
-		// 생각해보니 string, wstring은 문자열의 길이를 알아야하는구나.. 구현 해야할듯.. 나중에 하자..
+
 		template <typename T>
 		UInt32 Write( const T& data );
 
 		template <typename T>
 		UInt32 Read( T& data );
+
+		UInt32 Write( const Bool& s );
+		UInt32 Read( Bool& s );
+
+		UInt32 Write( const std::wstring& s );
+		UInt32 Read( std::wstring& s, const UInt32 limitCount = 999999 );
+
+		UInt32 Write( const std::string& s );
+		UInt32 Read( std::string& s, const UInt32 limitCount = 999999 );
+
+		
+		UInt32 Write( const Byte* buf, UInt32 count );
+		UInt32 Read( Byte* buf, UInt32 count );
+
+		UInt32 Write( const char* buf, UInt32 count );
+		UInt32 Read( char* buf, UInt32 count );
+		
 		
 		Byte*  GetPtr()			{ return DataBuffer; }
 		Byte*  GetCurPos()		{ return BufferPos;  }
@@ -160,20 +169,23 @@ namespace TripleS
 		DataBuffer = p;
 	}
 
-	inline UInt32 Write( const char* buf, UInt32 count )
+	inline UInt32 PacketStream::Write( const char* buf, UInt32 count )
 	{
-		return Write( ( const Byte* )buf, count );
+		return Write( (const Byte*)buf, count );
 	}
 
-	inline UInt32 Write( const Byte* buf, UInt32 count )
+	inline UInt32 PacketStream::Read( char* buf, UInt32 count )
+	{
+		return Read( ( Byte* )buf, count );
+	}
+
+	inline UInt32 PacketStream::Write( const Byte* buf, UInt32 count )
 	{
 		UInt32 written = count;
 
-		// 버퍼의 사이즈를 초과했다. 버퍼크기를 리사이징 하자.
 		if ( BufferPos + written >= BufferEndPos )
 		{
 			
-			// 초과된 크기를 알아내자
 			UInt32 requireSize = static_cast< UInt32 >( ( BufferPos + written ) - BufferEndPos );
 			Resize( ( UInt32 )( Capacity + requireSize ) );
 		}
@@ -183,14 +195,8 @@ namespace TripleS
 
 		return count;
 	}
-
-
-	inline UInt32 Read( char* buf, UInt32 count )
-	{
-		return Read( ( Byte* )buf, count );
-	}
-
-	inline UInt32 Read( Byte* buf, UInt32 count )
+		
+	inline UInt32 PacketStream::Read( Byte* buf, UInt32 count )
 	{
 		if ( nullptr == buf )
 		{
@@ -208,7 +214,7 @@ namespace TripleS
 		{
 			IsValid = FALSE;
 
-			size = static_cast< UInt32 >( BefferEndPos - BufferPos );
+			size = static_cast< UInt32 >( BufferEndPos - BufferPos );
 		}
 
 		if ( size == 0 )
@@ -225,16 +231,115 @@ namespace TripleS
 	}
 
 	template <typename T>
-	inline UInt32 Write( const T& data )
+	inline UInt32 PacketStream::Write( const T& data )
 	{
-		return Write( ( const Byte* )&data, sizeof( T ) );
+		return Write( (Byte* )&data, sizeof( T ) );
 	}
 
 	template <typename T>
-	inline UInt32 Read( T& data )
+	inline UInt32 PacketStream::Read( T& data )
 	{
 		return Read( ( Byte* )&data, sizeof( T ) );
 	}
+
+
+	inline UInt32 PacketStream::Write( const std::string& s )
+	{
+		UInt32 written = 0;
+		UInt32 len = static_cast< UInt32 >( s.length() );
+
+		written += Write( len );
+		written += Write( ( Byte* )s.c_str(), len );
+
+		return written;
+	}
+
+	inline UInt32 PacketStream::Write( const std::wstring& s )
+	{
+		UInt32 written = 0;
+		UInt32 len = static_cast< UInt32 >( s.length() );
+
+		written += Write( len );
+
+		if ( len )
+			written += Write( ( Byte* )s.c_str(), sizeof( wchar_t ) * len );
+
+		return written;
+	}
+
+	inline UInt32 PacketStream::Read( std::string& s, const UInt32 limitCount )
+	{
+		UInt32 readen = 0;
+		UInt32 len = 0;
+
+		readen += Read( len );
+
+		if ( !IsValid ) return 0;
+
+		if ( limitCount < len )
+		{
+			IsValid = false;
+			return 0;
+		}
+
+		char* temp = new char[ len + 1 ];
+
+		readen += Read( ( Byte* )temp, len );
+		temp[ len ] = '\0';
+
+		s = temp;
+
+		delete[] temp;
+
+		return readen;
+	}
+
+
+	inline UInt32 PacketStream::Write( const Bool& s )
+	{
+		s ? Write<Byte>( ( Byte )1 ) : Write<Byte>( ( Byte )0 );
+
+		return 1;
+	}
+
+	inline UInt32 PacketStream::Read( Bool& s )
+	{
+		Byte result = 0;
+
+		Read( result );
+
+		result > 0 ? s = true : s = false;
+
+		return 1;
+	}
+
+	
+	inline UInt32 PacketStream::Read( std::wstring& s, const UInt32 limitCount )
+	{
+		UInt32 readen = 0;
+		UInt32 len = 0;
+
+		readen += Read( len );
+
+		if ( !IsValid ) return 0;
+
+		if ( limitCount < len )
+		{
+			IsValid = false;
+			return 0;
+		}
+
+		wchar_t* temp = new wchar_t[ len + 1 ];
+
+		readen += Read( ( Byte* )temp, len );
+		temp[ len ] = '\0';
+
+		s = temp;
+
+		delete[] temp;
+
+		return readen;
+	}	
 }// namespace end
 
 

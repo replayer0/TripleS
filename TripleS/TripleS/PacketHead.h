@@ -1,10 +1,11 @@
 #pragma once
 
+template <typename T>
 class PacketHead
 {
 public:
 
-	PacketHead( UShort packetType = 0 )
+	PacketHead( T packetType = 0 )
 		: m_packetType( packetType )
 	{
 	}
@@ -15,12 +16,12 @@ public:
 		return m_packetType;
 	}
 
-	void SetHead( const UShort& packetType )
+	void SetHead( const T& packetType )
 	{
 		assert( packetType );
 		m_packetType = packetType;
 	}
 
 private:
-	UShort m_packetType;
+	T m_packetType;
 };
