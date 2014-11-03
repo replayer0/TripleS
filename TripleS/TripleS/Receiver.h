@@ -43,10 +43,13 @@ namespace TripleS
                 //printf("받은 값 = %s\n", tcpsocket.RecvBuf_);
 
                 // Async Recv 포스트
-                tcpsocket.Recv();
+                // tcpsocket.Recv();
+
+				tcpsocket.RecvCompleted( bytes_transferred );
 
                 //받은만큼 에코
-                tcpsocket.Send((BYTE*)tcpsocket.RecvBuf_, bytes_transferred);
+				// 일단 주석..
+                //tcpsocket.Send((BYTE*)tcpsocket.RecvBuf_, bytes_transferred);
             }
 
         }

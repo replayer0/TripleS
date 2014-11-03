@@ -4,6 +4,7 @@
 
 #include "TcpAct.h"
 #include "FowardDeclaration.h"
+#include "PacketStream.h"
 
 namespace TripleS 
 {
@@ -30,9 +31,13 @@ namespace TripleS
             Disconnector* disconnector,
             Sender* sender,
             Receiver* receiver);
-
-        SOCKET GetSocket() const;
-
+		void SetTotalRecvSize( const UInt32& size );
+		void BuildPacket();
+       
+		SOCKET GetSocket() const;
+	
+		Int32 RecvCompleted( UInt32 len );
+	
     public:
         void Recv();
         void Send(BYTE* buf, int buflen);
@@ -53,13 +58,14 @@ namespace TripleS
 
     public:
         char			AcceptBuf_[BUFSIZE];
-
-        char			RecvBuf_[BUFSIZE];
         char			SendBuf_[BUFSIZE];
 
         WSABUF			wsaRecvBuf;
         WSABUF			wsaSendBuf;
 
+		PacketStream	RecvActBuf;	    // 리시브액터가 동작할때 사용하는 버퍼.
+		PacketStream    RecvBuf;		// 이게 레알 버퍼.
+		UInt32			TotalRecvSize;
     private:
         SOCKET			m_socket;
         SOCKADDR_IN		m_addr;
