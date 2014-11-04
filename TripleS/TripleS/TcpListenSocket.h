@@ -2,6 +2,7 @@
 
 #include "WinSock.h"
 #include "FowardDeclaration.h"
+#include "BaseIocp_parameter.h"
 
 namespace TripleS 
 {
@@ -11,7 +12,7 @@ namespace TripleS
     {
 
     public:
-        TcpListenSocket(WORD port, int backlogsize, Proactor& proactor);
+        TcpListenSocket(listen_desc desc, Proactor& proactor);
 
         void Listen();
         SOCKET GetSocket() const;

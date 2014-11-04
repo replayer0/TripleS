@@ -2,10 +2,10 @@
 #include "TcpListenSocket.h"
 #include "Proactor.h"
 
-TripleS::TcpListenSocket::TcpListenSocket(WORD port, int backlogsize, Proactor& proactor)
+TripleS::TcpListenSocket::TcpListenSocket(listen_desc desc, Proactor& proactor)
     : m_proactor(proactor)
 {
-    _Init(port, backlogsize);
+    _Init(desc.m_port, desc.m_backlog_size);
 }
 
 void TripleS::TcpListenSocket::_Init(WORD port, int backlogsize)

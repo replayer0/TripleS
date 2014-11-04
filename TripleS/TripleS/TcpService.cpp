@@ -22,7 +22,7 @@ TripleS::TcpService::~TcpService()
 void TripleS::TcpService::Start(service_desc desc)
 {
     m_proactor = new Proactor(desc.m_thread_desc);
-    m_tcp_listen_socket = new TcpListenSocket(desc.m_port, desc.m_backlog_size, *m_proactor);
+    m_tcp_listen_socket = new TcpListenSocket(desc.m_listen_desc, *m_proactor);
     m_acceptor = new Acceptor(*m_tcp_listen_socket, *m_proactor);
     m_disconnector = new Disconnector(*m_proactor);
     m_sender = new Sender(*m_proactor);

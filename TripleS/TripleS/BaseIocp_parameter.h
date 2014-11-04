@@ -32,13 +32,17 @@ namespace TripleS {
         unsigned int m_begin_thread_count{ 2 };
         unsigned int m_max_thread_count{ 4 };
     };
+    struct listen_desc
+    {
+        int          m_backlog_size{ 0 };
+        WORD         m_port{ 9000 };
+    };
     class service_desc
     {
     public:
         thread_desc  m_thread_desc;
-        WORD         m_port{ 9000 };
+        listen_desc  m_listen_desc;
         unsigned int m_accept_pool_size{ 10 };
-        int          m_backlog_size{ 0 };
         //unsigned int m_time_out{ 5000 };
     };
 };
