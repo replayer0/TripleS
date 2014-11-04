@@ -3,6 +3,7 @@
 
 #include "PacketHead.h"
 #include "PacketStream.h"
+#include "PacketQueue.h"
 
 namespace TripleS
 {
@@ -48,7 +49,13 @@ namespace TripleS
 		}
 	};
 
-
+	// 패킷은 복제되어선 안되고, 항상 유일해야 한다.
+	// unique_ptr 은 대입연산자, 복사생성자가 없다. 
+	// 소유권이전을 시키고 싶으면 utility를 include해서 move()를 쓸것.
+	// 그럼 이전 소유권자는 nullptr이 되고 안전할 것이다.
+	typedef std::unique_ptr<Packet> PacketPtr;
+	typedef TripleS::PacketConcurrentQ<PacketPtr> PacketQ;
+	
  	struct SamplePacket : public Packet
  	{
  		static const UInt32 cProtocol = 10;
