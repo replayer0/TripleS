@@ -105,6 +105,9 @@
     <ClInclude Include="DefineTypes.h">
       <Filter>Util</Filter>
     </ClInclude>
+    <ClInclude Include="Uncopyable.h">
+      <Filter>Util</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Proactor.cpp">
