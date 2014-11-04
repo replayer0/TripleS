@@ -76,6 +76,15 @@ namespace TripleS
 			}
 		}
 
+		void Pop( UInt32 length )
+		{
+			assert( length <= GetCurSize() );
+
+			::memmove_s( DataBuffer, Capacity, DataBuffer + length, Capacity - length );
+
+			BufferPos -= length;
+		}
+
 		void SetCapacity( UInt32 size )
 		{
 			if ( Capacity < size )
@@ -262,8 +271,10 @@ namespace TripleS
 		written += Write( len );
 
 		if ( len )
+		{
 			written += Write( ( Byte* )s.c_str(), sizeof( wchar_t ) * len );
-
+		}
+	
 		return written;
 	}
 

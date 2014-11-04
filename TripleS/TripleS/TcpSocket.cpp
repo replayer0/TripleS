@@ -9,6 +9,7 @@
 #include "Receiver.h"
 
 TripleS::TcpSocket::TcpSocket()
+	: TotalRecvSize( 0 )
 {
 	m_socket = INVALID_SOCKET;
 	m_acceptor = NULL;
@@ -28,13 +29,12 @@ void TripleS::TcpSocket::Init()
 
 void TripleS::TcpSocket::InitBuf()
 {
-	wsaRecvBuf.buf = RecvBuf_;
+	wsaRecvBuf.buf = (char*)RecvActBuf.GetPtr();
 	wsaRecvBuf.len = BUFSIZE;
 
 	wsaSendBuf.buf = SendBuf_;
 	wsaSendBuf.len = BUFSIZE;
 
-	ZeroMemory( RecvBuf_, BUFSIZE );
 	ZeroMemory( SendBuf_, BUFSIZE );
 
 	ZeroMemory( AcceptBuf_, BUFSIZE );
@@ -65,11 +65,35 @@ SOCKET TripleS::TcpSocket::GetSocket() const
 	return m_socket;
 }
 
+Int32 TripleS::TcpSocket::RecvCompleted( UInt32 len )
+{
+	
+	if ( len <= 0 )
+	{
+		return -1;
+	}
+
+	RecvBuf.Write( RecvActBuf.GetPtr(), len );
+
+	SetTotalRecvSize( len );
+	
+	BuildPacket();
+		
+	Recv();
+}
+
+void  TripleS::TcpSocket::BuildPacket( )
+{
+	// 패킷 조립을 해야 한다.
+	//TODO::  ...
+}
+
 void TripleS::TcpSocket::Recv()
 {
-	DWORD recvbytes = 0;
+	DWORD recvbytes = wsaRecvBuf.len;
 	DWORD flags = 0;
-
+	
+	RecvActBuf.SetCapacity( BUFSIZE );
 
 	INT ret	= WSARecv( m_socket, &(wsaRecvBuf), 1, &recvbytes, &flags, static_cast<OVERLAPPED*>(&(Act_[ACT_RECV])), NULL );
 
@@ -131,4 +155,10 @@ void TripleS::TcpSocket::Disconnect()
 			printf("DisconnectEx Error!!! s(%d), err(%d)\n", m_socket, error);
 		}
 	}
+}
+
+void TripleS::TcpSocket::SetTotalRecvSize( const UInt32& size )
+{
+	// 일단은 단순하게.. 계산.. 나중엔 리시브 하다가 오래 걸리거나( 이럴경우가 발생할까? ) 하면 시간도 체크해서 리셋해주는게 필요할듯..
+	TotalRecvSize += size;
 }
