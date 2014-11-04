@@ -28,6 +28,10 @@
 #include "FowardDeclaration.h"
 
 namespace TripleS { 
+
+	class TcpSocket;
+	class Packet;
+
     class Proactor : private Uncopyable DEBUG_PARENTS(Proactor)
     {
     public:
@@ -39,7 +43,7 @@ namespace TripleS {
         const void ProcEvents(ThreadParameter* input_parma);
 
         static UINT WINAPI ThreadProc(ThreadParameter* input_param);
-
+		Bool ProcessPacket( TcpSocket* sock, void* data, Int32 size );
     private:
         void _Init(thread_desc desc);
         void _Release();
