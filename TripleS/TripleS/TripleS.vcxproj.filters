@@ -22,6 +22,9 @@
     <Filter Include="Setting">
       <UniqueIdentifier>{6a41fe13-baa7-486a-aab5-a0ffbb4e2cdb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Service\Packet">
+      <UniqueIdentifier>{9d11ca1a-4a02-4755-9b43-2ce62c91815b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -93,20 +96,20 @@
     <ClInclude Include="TcpService.h">
       <Filter>Service\Proactor\Tcp</Filter>
     </ClInclude>
-    <ClInclude Include="PacketStream.h">
-      <Filter>Service</Filter>
-    </ClInclude>
-    <ClInclude Include="Packet.h">
-      <Filter>Service</Filter>
-    </ClInclude>
-    <ClInclude Include="PacketHead.h">
-      <Filter>Service</Filter>
-    </ClInclude>
     <ClInclude Include="DefineTypes.h">
       <Filter>Util</Filter>
     </ClInclude>
     <ClInclude Include="Uncopyable.h">
       <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Packet.h">
+      <Filter>Service\Packet</Filter>
+    </ClInclude>
+    <ClInclude Include="PacketHead.h">
+      <Filter>Service\Packet</Filter>
+    </ClInclude>
+    <ClInclude Include="PacketStream.h">
+      <Filter>Service\Packet</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
