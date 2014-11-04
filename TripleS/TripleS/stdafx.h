@@ -12,4 +12,5 @@
 #include "Macro.h"
 #include "FowardDeclaration.h"
 #include "WinSock.h"
+#include "Uncopyable.h"
 

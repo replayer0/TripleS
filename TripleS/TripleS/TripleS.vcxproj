@@ -121,6 +121,7 @@ copy /Y "$(SolutionDir)TripleS\vld.ini" "$(TargetDir)";</Command>
     <ClInclude Include="TcpSocket.h" />
     <ClInclude Include="Threads.h" />
     <ClInclude Include="TripleContainer.h" />
+    <ClInclude Include="Uncopyable.h" />
     <ClInclude Include="WinSock.h" />
   </ItemGroup>
   <ItemGroup>

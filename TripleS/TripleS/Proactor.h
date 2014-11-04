@@ -28,7 +28,7 @@
 #include "FowardDeclaration.h"
 
 namespace TripleS { 
-    class Proactor DEBUG_PARENT(Proactor)
+    class Proactor : private Uncopyable DEBUG_PARENTS(Proactor)
     {
     public:
         Proactor(thread_desc desc);
@@ -41,9 +41,6 @@ namespace TripleS {
         static UINT WINAPI ThreadProc(ThreadParameter* input_param);
 
     private:
-        Proactor(Proactor const& object);
-        Proactor& operator=(Proactor const& object);
-
         void _Init(thread_desc desc);
         void _Release();
 
