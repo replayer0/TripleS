@@ -11,17 +11,17 @@ namespace TripleS
     {
 
     public:
-        TcpListenSocket();
+        TcpListenSocket(WORD port, int backlogsize, Proactor& proactor);
 
-        void Init(WORD port, int backlogsize = 0);
-        void Listen(TripleS::P_PROACTOR proactor);
+        void Listen();
         SOCKET GetSocket() const;
 
     private:
-        SOCKET		m_listen_socket;
-        SOCKADDR_IN m_socket_addr;
+        void _Init(WORD port, int backlogsize);
 
-        // 아직 미결인 연결들에 대한 연결 요청 큐의 늘어날 수 있는 최대 길이
-        int			m_backlog_size;
+        SOCKET		m_listen_socket { 9000 };
+        SOCKADDR_IN m_socket_addr;
+        int			m_backlog_size { 0 };
+        Proactor&   m_proactor;
     };
 }

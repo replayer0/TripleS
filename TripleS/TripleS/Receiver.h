@@ -18,7 +18,10 @@ namespace TripleS
     class Receiver : public Actor DEBUG_PARENTS(Receiver)
     {
     public:
-        Receiver(){};
+        Receiver(Proactor& proactor)
+            : Actor(proactor)
+        {
+        }
 
     public:
         void ProcEvent(Act* act, DWORD bytes_transferred)
@@ -66,11 +69,5 @@ namespace TripleS
             tcpsocket.Disconnect();
 
         }
-
-        void Init(TripleS::P_PROACTOR proactor)
-        {
-            Proactor_ = proactor;
-        }
-
     };
 }

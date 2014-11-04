@@ -7,10 +7,9 @@
 
 using namespace TripleS;
 
-Proactor::Proactor(TripleS::P_THREADS p_threads)
-    : m_threads(p_threads)
+Proactor::Proactor(thread_desc desc)
 {
-    m_handle_iocp = NULL;
+    _Init(desc);
 }
 
 Proactor::~Proactor()
@@ -18,24 +17,41 @@ Proactor::~Proactor()
     _Release();
 }
 
-const bool Proactor::Init()
+void Proactor::_Init(thread_desc desc)
 {
     m_handle_iocp = CreateIoCompletionPort(INVALID_HANDLE_VALUE, NULL, NULL, 0);
-    if (m_handle_iocp == NULL)
+    if (m_handle_iocp == INVALID_HANDLE_VALUE)
     {
-        return false;
+        return;
     }
-    return true;
+
+    if (!(m_threads = new TripleS::Threads(desc.m_max_thread_count)))
+    {
+        return;
+    }
+
+    for (unsigned int thread_idx = 0; thread_idx < desc.m_begin_thread_count; ++thread_idx)
+    {
+        ThreadParameter* input_param = new ThreadParameter(this);
+        input_param->SetThreadIndex(thread_idx);
+
+        m_threads->Regist(thread_idx, Proactor::ThreadProc, input_param);
+        Sleep(200);
+    }
 }
 
-bool Proactor::_Release()
+void Proactor::_Release()
 {
-    if (m_handle_iocp != NULL)
+    if (m_handle_iocp != INVALID_HANDLE_VALUE)
     {
         CloseHandle(m_handle_iocp);
         m_handle_iocp = NULL;
     }
-    return true;
+
+    if (m_threads != NULL)
+    {
+        delete[] m_threads;
+    }
 }
 
 UINT WINAPI Proactor::ThreadProc(ThreadParameter* input_param)

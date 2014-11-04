@@ -24,7 +24,7 @@ namespace TripleS
     class Threads DEBUG_PARENT(Threads)
     {
     public:
-        Threads(int max_thread);
+        Threads(unsigned int max_thread);
         ~Threads();
 
         typedef unsigned int THREAD_KEY;

@@ -26,15 +26,13 @@ namespace TripleS
         ~TcpService();
 
         void Start(service_desc desc);
-        void Join();
 
     private:
-        TripleS::P_TCPLISTENSOCKET m_tcp_listen_socket;
-        TripleS::P_PROACTOR m_proactor;
-        TripleS::P_ACCEPTOR m_acceptor;
-        TripleS::P_DISCONNECTOR m_disconnector;
-        TripleS::P_SENDER m_sender;
-        TripleS::P_RECEIVER m_receiver;
-        TripleS::P_THREADS  m_threads;
+        TcpListenSocket* m_tcp_listen_socket;
+        Proactor* m_proactor;
+        Acceptor* m_acceptor;
+        Disconnector* m_disconnector;
+        Sender* m_sender;
+        Receiver* m_receiver;
     };
 };

@@ -3,7 +3,8 @@
 #include "Threads.h"
 using namespace TripleS;
 
-TripleS::Threads::Threads(int max_thread) : m_worker_threads(max_thread, nullptr)
+TripleS::Threads::Threads(unsigned int max_thread)
+    : m_worker_threads(max_thread, nullptr)
 {
 }
 

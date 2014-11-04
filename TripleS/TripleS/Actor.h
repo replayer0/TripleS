@@ -8,15 +8,15 @@ namespace TripleS
     class Actor
     {
     public:
-        Actor()
+        Actor(Proactor& proactor)
+            : m_proactor(proactor)
         {
-            Proactor_ = NULL;
         }
 
         virtual void ProcEvent(Act* act, DWORD bytes_transferred) = 0;
         virtual void ProcError(Act* act, DWORD error) = 0;
 
     protected:
-        TripleS::P_PROACTOR Proactor_;
+        Proactor& m_proactor;
     };
 };

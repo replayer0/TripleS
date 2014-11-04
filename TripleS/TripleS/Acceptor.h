@@ -14,20 +14,17 @@ namespace TripleS
     class Acceptor : public Actor DEBUG_PARENTS(Acceptor)
     {
     public:
-        Acceptor(){};
+        Acceptor(TcpListenSocket& tcp_listen_socket, Proactor& proactor);
         ~Acceptor();
 
     public:
         void ProcEvent(Act* act, DWORD bytes_transferred);
         void ProcError(Act* act, DWORD error);
 
-        void Init(TripleS::P_TCPLISTENSOCKET tcplistensocket,
-            TripleS::P_PROACTOR proactor);
-
         void Register(TcpSocket& acceptsocket);
 
     public:
-        TripleS::P_TCPLISTENSOCKET TcpListenSocket_;
+        TcpListenSocket& m_tcp_listen_socket;
         std::queue<TcpSocket*> m_sockets;
     };
 }

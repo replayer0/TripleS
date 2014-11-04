@@ -17,7 +17,10 @@ namespace TripleS
     class Disconnector : public Actor DEBUG_PARENTS(Disconnector)
     {
     public:
-        Disconnector(){}
+        Disconnector(Proactor& proactor)
+            : Actor(proactor)
+        {
+        }
 
     public:
         void ProcEvent(Act* act, DWORD bytes_transferred)
@@ -46,11 +49,6 @@ namespace TripleS
             TcpSocket& tcpsocket = *tcpact.TcpSocket_;
 
             printf("...에러처리 Disconnector s(%d) err(%d)\n", tcpsocket.GetSocket(), error);
-        }
-
-        void Init(TripleS::P_PROACTOR proactor)
-        {
-            Proactor_ = proactor;
         }
     };
 }

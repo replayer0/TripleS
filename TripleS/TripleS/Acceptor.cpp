@@ -7,6 +7,12 @@
 
 using namespace TripleS;
 
+TripleS::Acceptor::Acceptor(TcpListenSocket& tcp_listen_socket, Proactor& proactor)
+    : Actor(proactor), m_tcp_listen_socket(tcp_listen_socket)
+{
+
+}
+
 void TripleS::Acceptor::ProcEvent(Act* act, DWORD bytes_transferred)
 {
 	TcpAct& tcpact = *dynamic_cast<TcpAct*>(act);
@@ -18,7 +24,7 @@ void TripleS::Acceptor::ProcEvent(Act* act, DWORD bytes_transferred)
 
 	//printf("...Acceptor s(%d)\n", tcpsocket.GetSocket());
 
-	Proactor_->Register(reinterpret_cast<HANDLE>(tcpsocket.GetSocket()));
+	m_proactor.Register(reinterpret_cast<HANDLE>(tcpsocket.GetSocket()));
 
 	tcpsocket.Recv();
 }
@@ -36,20 +42,13 @@ void TripleS::Acceptor::ProcError(Act* act, DWORD error)
 	//printf("...에러처리 Acceptor s(%d) err(%d)\n", tcpsocket.GetSocket(), error );
 }
 
-void TripleS::Acceptor::Init(TripleS::P_TCPLISTENSOCKET tcplistensocket,
-    TripleS::P_PROACTOR proactor)
-{
-	TcpListenSocket_ = tcplistensocket;
-	Proactor_ = proactor;
-}
-
 void TripleS::Acceptor::Register(TcpSocket& acceptsocket)
 {
     m_sockets.push(&acceptsocket);
 	DWORD byte_transferred;
 		
 	BOOL ret =	AcceptEx(
-			TcpListenSocket_->GetSocket(), 
+			m_tcp_listen_socket.GetSocket(), 
 			acceptsocket.GetSocket(), 
 			acceptsocket.AcceptBuf_, 
 			0, 

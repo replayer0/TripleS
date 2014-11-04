@@ -31,10 +31,9 @@ namespace TripleS {
     class Proactor DEBUG_PARENT(Proactor)
     {
     public:
-        Proactor(TripleS::P_THREADS p_threads);
+        Proactor(thread_desc desc);
         ~Proactor();
 
-        const bool Init();
         const void Register(const HANDLE handle);
         const BOOL PostPrivateEvent(const DWORD completion_key, Act* p_act);
         const void ProcEvents(ThreadParameter* input_parma);
@@ -45,9 +44,10 @@ namespace TripleS {
         Proactor(Proactor const& object);
         Proactor& operator=(Proactor const& object);
 
-        bool _Release();
+        void _Init(thread_desc desc);
+        void _Release();
 
-        HANDLE m_handle_iocp;
-        TripleS::P_THREADS m_threads;
+        HANDLE m_handle_iocp { INVALID_HANDLE_VALUE };
+        Threads* m_threads{ NULL };
     };
 };
