@@ -20,6 +20,12 @@ int _tmain(int argc, _TCHAR* argv[])
     Sleep(2000);
 
     //create socket
+    std::shared_ptr<TripleS::TcpSocket> tcp_socket[num_socket];
+    for (int i = 0; i < num_socket; ++i)
+    {
+        tcp_socket[i] = std::shared_ptr<TripleS::TcpSocket>(new TripleS::TcpSocket(server));
+    }
+
     TripleS::TcpSocket tcpsocket(server);
     Sleep(2000);
 
@@ -27,9 +33,9 @@ int _tmain(int argc, _TCHAR* argv[])
     server.Start();
 
     //regist
-    //for (int i = 0; i < num_socket; ++i)
+    for (int i = 0; i < num_socket; ++i)
     {
-        server.RegistSocket(&tcpsocket);
+        tcp_socket[i]->RegistAccept();
     }
 
     Sleep(2000);
