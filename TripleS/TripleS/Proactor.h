@@ -37,6 +37,7 @@ namespace TripleS {
         const void Register(const HANDLE handle);
         const BOOL PostPrivateEvent(const DWORD completion_key, Act* p_act);
         const void ProcEvents(ThreadParameter* input_parma);
+        const void RunThread();
 
         static UINT WINAPI ThreadProc(ThreadParameter* input_param);
 
@@ -45,6 +46,7 @@ namespace TripleS {
         void _Release();
 
         HANDLE m_handle_iocp { INVALID_HANDLE_VALUE };
+        HANDLE m_handle_sleep{ INVALID_HANDLE_VALUE };
         Threads* m_threads{ NULL };
     };
 };

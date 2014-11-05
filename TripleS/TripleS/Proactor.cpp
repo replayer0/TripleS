@@ -30,6 +30,8 @@ void Proactor::_Init(thread_desc desc)
         return;
     }
 
+    m_handle_sleep = CreateEvent(NULL, TRUE, FALSE, NULL);
+
     for (unsigned int thread_idx = 0; thread_idx < desc.m_begin_thread_count; ++thread_idx)
     {
         ThreadParameter* input_param = new ThreadParameter(this);
@@ -56,6 +58,8 @@ void Proactor::_Release()
 
 UINT WINAPI Proactor::ThreadProc(ThreadParameter* input_param)
 {
+    DEBUG_INFO(eDEBUG_LOW, "create thread (%d)", input_param->GetThreadIndex());
+    WaitForSingleObject(input_param->GetBaseIocp()->m_handle_sleep, INFINITE);
     DEBUG_INFO(eDEBUG_LOW, "run thread (%d)", input_param->GetThreadIndex());
     input_param->GetBaseIocp()->ProcEvents(input_param);
     DEBUG_INFO(eDEBUG_LOW, "end thread (%d)", input_param->GetThreadIndex());
@@ -125,4 +129,9 @@ const BOOL TripleS::Proactor::PostPrivateEvent(const DWORD completion_key, Act* 
 const void TripleS::Proactor::Register(const HANDLE handle)
 {
     CreateIoCompletionPort(handle, m_handle_iocp, 0, 0);
+}
+
+const void TripleS::Proactor::RunThread()
+{
+    SetEvent(m_handle_sleep);
 }
