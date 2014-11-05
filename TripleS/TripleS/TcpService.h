@@ -20,19 +20,23 @@
 
 namespace TripleS 
 {
-    class TcpService : public Service DEBUG_PARENTS(TcpService)
+    class TcpService DEBUG_PARENT(TcpService)
     {
     public:
+        TcpService(service_desc desc);
         ~TcpService();
 
-        void Start(service_desc desc);
+        void Start();
+        void RegistSocket(TcpSocket* tcp_socket); //이 함수는 리슨상태 이후에 호출되어야한다(Start)
 
     private:
-        TcpListenSocket* m_tcp_listen_socket;
-        Proactor* m_proactor;
-        Acceptor* m_acceptor;
-        Disconnector* m_disconnector;
-        Sender* m_sender;
-        Receiver* m_receiver;
+        void _Release();
+
+        TcpListenSocket*m_tcp_listen_socket { NULL };
+        Proactor*       m_proactor          { NULL };
+        Acceptor*       m_acceptor          { NULL };
+        Disconnector*   m_disconnector      { NULL };
+        Sender*         m_sender            { NULL };
+        Receiver*       m_receiver          { NULL };
     };
 };
