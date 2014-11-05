@@ -22,7 +22,6 @@ namespace TripleS
         ~TcpService();
 
         void Start();
-        void RegistSocket(TcpSocket* tcp_socket); //이 함수는 리슨상태 이후에 호출되어야한다(Start)
 
     private:
         void _Release();
