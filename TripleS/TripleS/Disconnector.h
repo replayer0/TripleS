@@ -35,7 +35,7 @@ namespace TripleS
             //assert(tcpsocket.Acceptor_);
 
             // 소켓 재사용
-            tcpsocket.Reuse();
+            tcpsocket.RegistAccept();
         }
 
         void ProcError(Act* act, DWORD error)
