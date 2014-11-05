@@ -65,7 +65,7 @@ SOCKET TripleS::TcpSocket::GetSocket() const
 	return m_socket;
 }
 
-Int32 TripleS::TcpSocket::RecvCompleted( UInt32 len )
+Int32 TripleS::TcpSocket::RecvCompleted(Act* act, Proactor& proactor, UInt32 len )
 {
 	
 	if ( len <= 0 )
@@ -77,15 +77,63 @@ Int32 TripleS::TcpSocket::RecvCompleted( UInt32 len )
 
 	SetTotalRecvSize( len );
 	
-	BuildPacket();
+	BuildPacket( proactor );
 		
 	Recv();
+
+	return len;
 }
 
-void  TripleS::TcpSocket::BuildPacket( )
+#define PACKET_SIZE 4
+void  TripleS::TcpSocket::BuildPacket( Proactor& proactor )
 {
-	// 패킷 조립을 해야 한다.
-	//TODO::  ...
+	
+	PacketStream& recvBuff = GetRecvBuff();
+	Byte* data = recvBuff.GetPtr();
+	UInt32 dataSize = recvBuff.GetCurSize();
+	UInt32 processedSize = 0;
+	UInt32 packetCount = 0;
+
+	while ( PACKET_SIZE <= dataSize )
+	{
+		Int32* packetSizePtr = reinterpret_cast< Int32* >( data );
+		UInt32 packetLength = *packetSizePtr;
+
+		// 패킷이 버퍼를 초과.
+		if ( packetLength > BUFSIZE )
+		{
+			Disconnect();
+			break;
+		}
+
+		// data가 아직 덜 쌓임.
+		if ( packetLength + PACKET_SIZE > dataSize )
+		{
+			break;
+		}
+
+		UInt32 length = packetLength;
+
+		void* packet = ( void* )( data + PACKET_SIZE );
+
+		if ( !proactor.ProcessPacket( this, packet, static_cast< Int32 >( length ) ) )
+		{
+			Disconnect();
+			break;
+		}
+
+		++packetCount;
+
+		processedSize += ( packetLength + PACKET_SIZE );
+		data = data + ( packetLength + PACKET_SIZE ); // 이전 위치에서 처리 길이만큼 앞으로 이동
+		dataSize = dataSize - ( packetLength + 4 ); //처리한만큼 줄여줌.
+				
+	} // while end
+
+	if ( processedSize > 0 )
+	{
+		recvBuff.Pop( processedSize );
+	}
 }
 
 void TripleS::TcpSocket::Recv()

@@ -32,12 +32,13 @@ namespace TripleS
             Sender* sender,
             Receiver* receiver);
 		void SetTotalRecvSize( const UInt32& size );
-		void BuildPacket();
+		void BuildPacket( Proactor& proactor );
        
 		SOCKET GetSocket() const;
 	
-		Int32 RecvCompleted( UInt32 len );
-	
+		Int32 RecvCompleted(Act* act, Proactor& proactor, UInt32 len );
+		PacketStream& GetRecvBuff() { return RecvBuf; }
+
     public:
         void Recv();
         void Send(BYTE* buf, int buflen);

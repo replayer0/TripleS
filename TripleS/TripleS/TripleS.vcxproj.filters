@@ -87,9 +87,6 @@
     <ClInclude Include="BaseIocp_parameter.h">
       <Filter>Service\Proactor</Filter>
     </ClInclude>
-    <ClInclude Include="Service.h">
-      <Filter>Service</Filter>
-    </ClInclude>
     <ClInclude Include="Acceptor.h">
       <Filter>Service\Proactor</Filter>
     </ClInclude>
@@ -110,6 +107,9 @@
     </ClInclude>
     <ClInclude Include="PacketStream.h">
       <Filter>Service\Packet</Filter>
+    </ClInclude>
+    <ClInclude Include="Service.h">
+      <Filter>Service</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

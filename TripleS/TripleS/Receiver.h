@@ -48,7 +48,7 @@ namespace TripleS
                 // Async Recv 포스트
                 // tcpsocket.Recv();
 
-				tcpsocket.RecvCompleted( bytes_transferred );
+				tcpsocket.RecvCompleted( act, m_proactor,  bytes_transferred );
 
                 //받은만큼 에코
 				// 일단 주석..
