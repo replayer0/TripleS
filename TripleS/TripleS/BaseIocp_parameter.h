@@ -42,7 +42,6 @@ namespace TripleS {
     public:
         thread_desc  m_thread_desc;
         listen_desc  m_listen_desc;
-        unsigned int m_accept_pool_size{ 10 };
         //unsigned int m_time_out{ 5000 };
     };
 };
