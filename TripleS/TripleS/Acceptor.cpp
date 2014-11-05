@@ -49,7 +49,7 @@ void TripleS::Acceptor::Register(TcpSocket& acceptsocket)
 	BOOL ret =	AcceptEx(
 			m_tcp_listen_socket.GetSocket(), 
 			acceptsocket.GetSocket(), 
-			acceptsocket.AcceptBuf_, 
+			acceptsocket.GetAcceptBuffer(), 
 			0, 
 			sizeof(SOCKADDR_IN) + 16,
 			sizeof(SOCKADDR_IN) + 16,

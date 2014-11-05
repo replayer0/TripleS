@@ -38,6 +38,7 @@ namespace TripleS
 	
 		Int32 RecvCompleted(Act* act, Proactor& proactor, UInt32 len );
 		PacketStream& GetRecvBuff() { return RecvBuf; }
+        char* GetAcceptBuffer() { return AcceptBuf_; }
 
     public:
         void Recv();
@@ -57,7 +58,7 @@ namespace TripleS
 
         TcpAct			Act_[ACT_TYPE_CNT];
 
-    public:
+    private:
         char			AcceptBuf_[BUFSIZE];
         char			SendBuf_[BUFSIZE];
 
@@ -67,7 +68,7 @@ namespace TripleS
 		PacketStream	RecvActBuf;	    // 리시브액터가 동작할때 사용하는 버퍼.
 		PacketStream    RecvBuf;		// 이게 레알 버퍼.
 		UInt32			TotalRecvSize;
-    private:
+
         SOCKET			m_socket;
         SOCKADDR_IN		m_addr;
 
