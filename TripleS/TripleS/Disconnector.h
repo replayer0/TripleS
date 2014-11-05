@@ -3,15 +3,6 @@
 #include "Actor.h"
 #include "TcpSocket.h"
 
-//--------------------------------------------------------
-// 이름 :	Disconnector
-//
-// 역할 :	1)  ACT의 Complete()에서 ProcEvent() 콜
-//			2)	ACT의 Error()에서 ProcError() 콜
-//
-// 기타	:	Actor 의 SubClass
-//--------------------------------------------------------
-
 namespace TripleS
 {
     class Disconnector : public Actor DEBUG_PARENTS(Disconnector)
