@@ -44,7 +44,6 @@ void TripleS::Acceptor::ProcError(Act* act, DWORD error)
 
 void TripleS::Acceptor::Register(TcpSocket& acceptsocket)
 {
-    m_sockets.push(&acceptsocket);
 	DWORD byte_transferred;
 		
 	BOOL ret =	AcceptEx(
@@ -68,11 +67,4 @@ void TripleS::Acceptor::Register(TcpSocket& acceptsocket)
 
 TripleS::Acceptor::~Acceptor()
 {
-    // ÀÓ½Ã ‹ª»§
-    while (m_sockets.empty() == false)
-    {
-        auto socket = m_sockets.front();
-        delete socket;
-        m_sockets.pop();
-    }
 }

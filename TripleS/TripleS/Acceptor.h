@@ -7,7 +7,6 @@
 #include "TcpSocket.h"
 #include "FowardDeclaration.h"
 
-#include <queue>
 
 namespace TripleS 
 {
@@ -25,6 +24,5 @@ namespace TripleS
 
     public:
         TcpListenSocket& m_tcp_listen_socket;
-        std::queue<TcpSocket*> m_sockets;
     };
 }
