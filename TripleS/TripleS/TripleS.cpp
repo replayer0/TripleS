@@ -29,7 +29,7 @@ int _tmain(int argc, _TCHAR* argv[])
     //regist
     //for (int i = 0; i < num_socket; ++i)
     {
-        //server.RegistSocket(&tcpsocket);
+        server.RegistSocket(&tcpsocket);
     }
 
     Sleep(2000);

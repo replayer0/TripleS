@@ -17,13 +17,12 @@ namespace TripleS
 
     class TcpService DEBUG_PARENT(TcpService)
     {
-        friend TcpSocket::TcpSocket(TcpService& tcp_service);
     public:
         TcpService(service_desc desc);
         ~TcpService();
 
         void Start();
-        //void RegistSocket(TcpSocket* tcp_socket); //이 함수는 리슨상태 이후에 호출되어야한다(Start)
+        void RegistSocket(TcpSocket* tcp_socket); //이 함수는 리슨상태 이후에 호출되어야한다(Start)
 
     private:
         void _Release();
@@ -34,5 +33,7 @@ namespace TripleS
         Disconnector*   m_disconnector      { NULL };
         Sender*         m_sender            { NULL };
         Receiver*       m_receiver          { NULL };
+
+        friend TcpSocket::TcpSocket(TcpService& tcp_service);
     };
 };
