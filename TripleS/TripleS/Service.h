@@ -5,10 +5,10 @@
 
 namespace TripleS 
 {
-    class Service
+    class WSA
     {
     public:
-        Service()
+        WSA()
         {
             WSADATA	wsaData;
             if (WSAStartup(MAKEWORD(2, 2), &wsaData) != 0)
@@ -17,9 +17,11 @@ namespace TripleS
             }
         }
 
-        virtual ~Service()
+        virtual ~WSA()
         {
             WSACleanup();
         }
     };
 };
+
+static TripleS::WSA WSA_GLOBAL;
