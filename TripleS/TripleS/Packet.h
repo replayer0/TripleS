@@ -17,7 +17,7 @@ namespace TripleS
 	};
 #pragma  pack(pop)
 
-	class Packet : public PacketHead < UInt32 >
+	struct Packet : public PacketHead < UInt32 >
 	{
 		UInt32 idx; // 家南 技记牢郸胶
 
