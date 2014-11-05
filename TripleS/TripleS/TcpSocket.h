@@ -3,7 +3,6 @@
 #define BUFSIZE 8192
 
 #include "TcpAct.h"
-#include "FowardDeclaration.h"
 #include "PacketStream.h"
 
 namespace TripleS 
@@ -13,24 +12,18 @@ namespace TripleS
     class Disconnector;
     class Sender;
     class Receiver;
+    class TcpService;
 
     class TcpSocket DEBUG_PARENT(TcpSocket)
     {
 
     public:
-        TcpSocket();
+        TcpSocket(TcpService& tcp_service);
         ~TcpSocket()
         {
         }
 
     public:
-        void Init();
-        void InitBuf();
-        void InitAct(Proactor* proactor, 
-            Acceptor* acceptor,
-            Disconnector* disconnector,
-            Sender* sender,
-            Receiver* receiver);
 		void SetTotalRecvSize( const UInt32& size );
 		void BuildPacket( Proactor& proactor );
        
@@ -59,6 +52,14 @@ namespace TripleS
         TcpAct			Act_[ACT_TYPE_CNT];
 
     private:
+        void _Init();
+        void _InitBuf();
+        void _InitAct(Proactor* proactor,
+            Acceptor* acceptor,
+            Disconnector* disconnector,
+            Sender* sender,
+            Receiver* receiver);
+
         char			AcceptBuf_[BUFSIZE];
         char			SendBuf_[BUFSIZE];
 

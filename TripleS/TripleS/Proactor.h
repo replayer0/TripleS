@@ -22,15 +22,14 @@
 *******************************************************************************/
 
 #include "WinSock.h"
-
 #include "BaseIocp_parameter.h"
 #include "Act.h"
-#include "FowardDeclaration.h"
 
-namespace TripleS { 
-
+namespace TripleS 
+{ 
 	class TcpSocket;
 	class Packet;
+    class Threads;
 
     class Proactor : private Uncopyable DEBUG_PARENTS(Proactor)
     {

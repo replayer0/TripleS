@@ -12,10 +12,6 @@
 
 int _tmain(int argc, _TCHAR* argv[])
 {
-    //create socket
-    TripleS::TcpSocket tcpsocket[num_socket];
-    Sleep(2000);
-    
     //define desc
     TripleS::service_desc desc;
 
@@ -23,13 +19,17 @@ int _tmain(int argc, _TCHAR* argv[])
     TripleS::TcpService server(desc);
     Sleep(2000);
 
+    //create socket
+    TripleS::TcpSocket tcpsocket(server);
+    Sleep(2000);
+
     //run
     server.Start();
 
     //regist
-    for (int i = 0; i < num_socket; ++i)
+    //for (int i = 0; i < num_socket; ++i)
     {
-        server.RegistSocket(&tcpsocket[i]);
+        //server.RegistSocket(&tcpsocket);
     }
 
     Sleep(2000);

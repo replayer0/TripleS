@@ -1,21 +1,28 @@
 #include "StdAfx.h"
 
 #include "TcpSocket.h"
-
+#include "TcpService.h"
 #include "Proactor.h"
 #include "Disconnector.h"
 #include "Acceptor.h"
 #include "Sender.h"
 #include "Receiver.h"
 
-TripleS::TcpSocket::TcpSocket()
+TripleS::TcpSocket::TcpSocket(TcpService& tcp_service)
 	: TotalRecvSize( 0 )
 {
 	m_socket = INVALID_SOCKET;
 	m_acceptor = NULL;
+
+    _Init();
+    _InitAct(tcp_service.m_proactor,
+        tcp_service.m_acceptor, 
+        tcp_service.m_disconnector,
+        tcp_service.m_sender, 
+        tcp_service.m_receiver);
 }
 
-void TripleS::TcpSocket::Init()
+void TripleS::TcpSocket::_Init()
 {
 	m_socket = WSASocket( AF_INET, SOCK_STREAM, 0, NULL, 0, WSA_FLAG_OVERLAPPED );
 
@@ -24,10 +31,10 @@ void TripleS::TcpSocket::Init()
 		printf("WSASocket() Error!!! err(%d)\n", WSAGetLastError());
 	}
 
-	InitBuf();
+	_InitBuf();
 }
 
-void TripleS::TcpSocket::InitBuf()
+void TripleS::TcpSocket::_InitBuf()
 {
 	wsaRecvBuf.buf = (char*)RecvActBuf.GetPtr();
 	wsaRecvBuf.len = BUFSIZE;
@@ -40,7 +47,7 @@ void TripleS::TcpSocket::InitBuf()
 	ZeroMemory( AcceptBuf_, BUFSIZE );
 }
 
-void TripleS::TcpSocket::InitAct(
+void TripleS::TcpSocket::_InitAct(
     Proactor* proactor,
     Acceptor* acceptor,
     Disconnector* disconnector,

@@ -30,12 +30,11 @@ void TripleS::TcpService::Start()
     m_proactor->RunThread();
 }
 
+/*
 void TripleS::TcpService::RegistSocket(TcpSocket* tcp_socket)
 {
-    tcp_socket->Init();
-    tcp_socket->InitAct(m_proactor, m_acceptor, m_disconnector, m_sender, m_receiver);
     m_acceptor->Register(*tcp_socket);
-}
+}*/
 
 void TripleS::TcpService::_Release()
 {

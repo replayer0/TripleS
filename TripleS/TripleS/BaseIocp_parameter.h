@@ -3,10 +3,11 @@
 #define _TRIFLE_S_BASE_IOCP_PARAMETER_H_
 
 #include "WinSock.h"
-#include "FowardDeclaration.h"
 #include "Act.h"
 
 namespace TripleS {
+    class Proactor;
+
     class ThreadParameter
     {
     public:

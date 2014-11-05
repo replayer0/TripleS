@@ -54,9 +54,6 @@
     <ClInclude Include="FunctorAdapter.h">
       <Filter>Util</Filter>
     </ClInclude>
-    <ClInclude Include="FowardDeclaration.h">
-      <Filter>Etc</Filter>
-    </ClInclude>
     <ClInclude Include="WinSock.h">
       <Filter>Etc</Filter>
     </ClInclude>
