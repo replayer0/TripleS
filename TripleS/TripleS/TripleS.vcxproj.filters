@@ -108,7 +108,7 @@
     <ClInclude Include="PacketStream.h">
       <Filter>Service\Packet</Filter>
     </ClInclude>
-    <ClInclude Include="Service.h">
+    <ClInclude Include="WSA.h">
       <Filter>Service</Filter>
     </ClInclude>
   </ItemGroup>
