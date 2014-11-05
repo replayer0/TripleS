@@ -42,7 +42,7 @@ void TripleS::Acceptor::ProcError(Act* act, DWORD error)
 	//printf("...에러처리 Acceptor s(%d) err(%d)\n", tcpsocket.GetSocket(), error );
 }
 
-void TripleS::Acceptor::Register(TcpSocket& acceptsocket)
+bool TripleS::Acceptor::Register(TcpSocket& acceptsocket)
 {
 	DWORD byte_transferred;
 		
@@ -54,15 +54,15 @@ void TripleS::Acceptor::Register(TcpSocket& acceptsocket)
 			sizeof(SOCKADDR_IN) + 16,
 			sizeof(SOCKADDR_IN) + 16,
 			&byte_transferred,
-			static_cast<OVERLAPPED*>(&acceptsocket.Act_[TcpSocket::ACT_ACCEPT])
+			static_cast<OVERLAPPED*>(&acceptsocket.GetAct(TcpSocket::ACT_ACCEPT))
  			);
 
 	int error = WSAGetLastError();
-
 	if( ret == FALSE && error != ERROR_IO_PENDING ) 
 	{
-		printf( "AcceptEx Error!!! s(%d), err(%d)\n", acceptsocket.GetSocket(), error );	
+        DEBUG_INFO(eDEBUG_LOW, "AcceptEx Error!!! s(%d), err(%d)\n", acceptsocket.GetSocket(), error);
 	}
+    return ret;
 }
 
 TripleS::Acceptor::~Acceptor()

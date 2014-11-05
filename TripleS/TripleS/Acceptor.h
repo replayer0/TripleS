@@ -19,7 +19,7 @@ namespace TripleS
         void ProcEvent(Act* act, DWORD bytes_transferred);
         void ProcError(Act* act, DWORD error);
 
-        void Register(TcpSocket& acceptsocket);
+        bool Register(TcpSocket& acceptsocket);
 
     public:
         TcpListenSocket& m_tcp_listen_socket;
