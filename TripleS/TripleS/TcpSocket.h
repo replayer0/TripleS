@@ -16,30 +16,10 @@ namespace TripleS
 
     class TcpSocket DEBUG_PARENT(TcpSocket)
     {
-
     public:
         TcpSocket(TcpService& tcp_service);
-        ~TcpSocket()
-        {
-        }
+        ~TcpSocket();
 
-    public:
-		void SetTotalRecvSize( const UInt32& size );
-		void BuildPacket( Proactor& proactor );
-       
-		SOCKET GetSocket() const;
-	
-		Int32 RecvCompleted(Act* act, Proactor& proactor, UInt32 len );
-		PacketStream& GetRecvBuff() { return RecvBuf; }
-        char* GetAcceptBuffer() { return AcceptBuf_; }
-
-    public:
-        void Recv();
-        void Send(BYTE* buf, int buflen);
-        void Reuse();
-        void Disconnect();
-
-    public:
         enum ACT_TYPE
         {
             ACT_SEND = 0,
@@ -49,34 +29,40 @@ namespace TripleS
             ACT_TYPE_CNT
         };
 
-        TcpAct			Act_[ACT_TYPE_CNT];
+		void SetTotalRecvSize( const UInt32& size );
+		void BuildPacket();
+		Int32 RecvCompleted(Act* act, Proactor& proactor, UInt32 len );
+
+		PacketStream& GetRecvBuff() { return RecvBuf; }
+        char* GetAcceptBuffer() { return AcceptBuf_; }
+        SOCKET GetSocket() const;
+        TcpAct& GetAct(ACT_TYPE act_type) { return m_act[act_type]; }
+
+        void Recv();
+        void Send(BYTE* buf, int buflen);
+        const bool RegistAccept(); // 이름을 못짓겠다..
+        const bool Disconnect();
 
     private:
-        void _Init();
-        void _InitBuf();
-        void _InitAct(Proactor* proactor,
-            Acceptor* acceptor,
-            Disconnector* disconnector,
-            Sender* sender,
-            Receiver* receiver);
+        TcpAct			m_act[ACT_TYPE_CNT];
 
-        char			AcceptBuf_[BUFSIZE];
-        char			SendBuf_[BUFSIZE];
+        char            AcceptBuf_[BUFSIZE];
+        char            SendBuf_[BUFSIZE];
 
-        WSABUF			wsaRecvBuf;
-        WSABUF			wsaSendBuf;
+        WSABUF          wsaRecvBuf;
+        WSABUF          wsaSendBuf;
 
-		PacketStream	RecvActBuf;	    // 리시브액터가 동작할때 사용하는 버퍼.
+		PacketStream    RecvActBuf;	    // 리시브액터가 동작할때 사용하는 버퍼.
 		PacketStream    RecvBuf;		// 이게 레알 버퍼.
-		UInt32			TotalRecvSize;
+        UInt32          TotalRecvSize { 0 };
 
-        SOCKET			m_socket;
-        SOCKADDR_IN		m_addr;
+        SOCKET          m_socket{ INVALID_SOCKET };
+        SOCKADDR_IN     m_addr;
 
-        Proactor* m_proactor;
-        Acceptor* m_acceptor;
-        Disconnector* m_disconnector;
-        Sender* m_sender;
-        Receiver* m_receiver;
+        Proactor&       m_proactor;
+        Acceptor&       m_acceptor;
+        Disconnector&   m_disconnector;
+        Sender&         m_sender;
+        Receiver&       m_receiver;
     };
 }

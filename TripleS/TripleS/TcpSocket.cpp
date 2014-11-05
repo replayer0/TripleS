@@ -9,62 +9,37 @@
 #include "Receiver.h"
 
 TripleS::TcpSocket::TcpSocket(TcpService& tcp_service)
-	: TotalRecvSize( 0 )
+    : m_proactor(*tcp_service.m_proactor),
+    m_acceptor(*tcp_service.m_acceptor),
+    m_disconnector(*tcp_service.m_disconnector),
+    m_sender(*tcp_service.m_sender),
+    m_receiver(*tcp_service.m_receiver)
 {
-	m_socket = INVALID_SOCKET;
-	m_acceptor = NULL;
+    // socket
+    m_socket = WSASocket(AF_INET, SOCK_STREAM, 0, NULL, 0, WSA_FLAG_OVERLAPPED);
+    if (m_socket == INVALID_SOCKET)
+    {
+        DEBUG_INFO(eDEBUG_LOW, "WSASocket() Error!!! err(%d)\n", WSAGetLastError());
+    }
 
-    _Init();
-    _InitAct(tcp_service.m_proactor,
-        tcp_service.m_acceptor, 
-        tcp_service.m_disconnector,
-        tcp_service.m_sender, 
-        tcp_service.m_receiver);
+    // buffer
+    wsaRecvBuf.buf = (char*)RecvActBuf.GetPtr();
+    wsaRecvBuf.len = BUFSIZE;
+    wsaSendBuf.buf = SendBuf_;
+    wsaSendBuf.len = BUFSIZE;
+
+    ZeroMemory(SendBuf_, BUFSIZE);
+    ZeroMemory(AcceptBuf_, BUFSIZE);
+
+    // act
+    m_act[ACT_ACCEPT].Init(&m_acceptor, this);
+    m_act[ACT_RECV].Init(&m_receiver, this);
+    m_act[ACT_SEND].Init(&m_sender, this);
+    m_act[ACT_DISCONNECT].Init(&m_disconnector, this);
 }
 
-void TripleS::TcpSocket::_Init()
+TripleS::TcpSocket::~TcpSocket()
 {
-	m_socket = WSASocket( AF_INET, SOCK_STREAM, 0, NULL, 0, WSA_FLAG_OVERLAPPED );
-
-	if( m_socket == INVALID_SOCKET )
-	{
-		printf("WSASocket() Error!!! err(%d)\n", WSAGetLastError());
-	}
-
-	_InitBuf();
-}
-
-void TripleS::TcpSocket::_InitBuf()
-{
-	wsaRecvBuf.buf = (char*)RecvActBuf.GetPtr();
-	wsaRecvBuf.len = BUFSIZE;
-
-	wsaSendBuf.buf = SendBuf_;
-	wsaSendBuf.len = BUFSIZE;
-
-	ZeroMemory( SendBuf_, BUFSIZE );
-
-	ZeroMemory( AcceptBuf_, BUFSIZE );
-}
-
-void TripleS::TcpSocket::_InitAct(
-    Proactor* proactor,
-    Acceptor* acceptor,
-    Disconnector* disconnector,
-    Sender* sender,
-    Receiver* receiver
-    )
-{
-    m_proactor = proactor;
-    m_acceptor = acceptor;
-    m_disconnector = disconnector;
-    m_sender = sender;
-    m_receiver = receiver;
-
-	Act_[ACT_ACCEPT].Init( m_acceptor, this );
-	Act_[ACT_RECV].Init( m_receiver, this );
-	Act_[ACT_SEND].Init( m_sender, this );
-	Act_[ACT_DISCONNECT].Init( m_disconnector, this );
 }
 
 SOCKET TripleS::TcpSocket::GetSocket() const
@@ -84,7 +59,7 @@ Int32 TripleS::TcpSocket::RecvCompleted(Act* act, Proactor& proactor, UInt32 len
 
 	SetTotalRecvSize( len );
 	
-	BuildPacket( proactor );
+	BuildPacket();
 		
 	Recv();
 
@@ -92,7 +67,7 @@ Int32 TripleS::TcpSocket::RecvCompleted(Act* act, Proactor& proactor, UInt32 len
 }
 
 #define PACKET_SIZE 4
-void  TripleS::TcpSocket::BuildPacket( Proactor& proactor )
+void  TripleS::TcpSocket::BuildPacket()
 {
 	
 	PacketStream& recvBuff = GetRecvBuff();
@@ -123,7 +98,7 @@ void  TripleS::TcpSocket::BuildPacket( Proactor& proactor )
 
 		void* packet = ( void* )( data + PACKET_SIZE );
 
-		if ( !proactor.ProcessPacket( this, packet, static_cast< Int32 >( length ) ) )
+		if ( !m_proactor.ProcessPacket( this, packet, static_cast< Int32 >( length ) ) )
 		{
 			Disconnect();
 			break;
@@ -150,7 +125,7 @@ void TripleS::TcpSocket::Recv()
 	
 	RecvActBuf.SetCapacity( BUFSIZE );
 
-	INT ret	= WSARecv( m_socket, &(wsaRecvBuf), 1, &recvbytes, &flags, static_cast<OVERLAPPED*>(&(Act_[ACT_RECV])), NULL );
+	INT ret	= WSARecv( m_socket, &(wsaRecvBuf), 1, &recvbytes, &flags, static_cast<OVERLAPPED*>(&(m_act[ACT_RECV])), NULL );
 
 	if( ret != 0 )
 	{
@@ -170,7 +145,7 @@ void TripleS::TcpSocket::Send(BYTE* buf, int buflen)
 	wsaSendBuf.buf	= reinterpret_cast<char*>(buf);
 	wsaSendBuf.len	= buflen;
 
-	INT ret	= WSASend(m_socket, &(wsaSendBuf), 1, &sentbytes, 0, static_cast<OVERLAPPED*>(&(Act_[ACT_SEND])), NULL);
+	INT ret	= WSASend(m_socket, &(wsaSendBuf), 1, &sentbytes, 0, static_cast<OVERLAPPED*>(&(m_act[ACT_SEND])), NULL);
 
 	if( ret != 0 )
 	{
@@ -184,19 +159,19 @@ void TripleS::TcpSocket::Send(BYTE* buf, int buflen)
 	}
 }
 
-void TripleS::TcpSocket::Reuse()
+const bool TripleS::TcpSocket::RegistAccept()
 {
-	m_acceptor->Register( *this );
+	return m_acceptor.Register( *this );
 }
 
-void TripleS::TcpSocket::Disconnect()
+const bool TripleS::TcpSocket::Disconnect()
 {
 	BOOL ret = TransmitFile(	
 		m_socket, 
 		NULL, 
 		0, 
 		0, 
-		static_cast<OVERLAPPED*>(&(Act_[ACT_DISCONNECT])), 
+		static_cast<OVERLAPPED*>(&(m_act[ACT_DISCONNECT])), 
 		NULL, 
 		TF_DISCONNECT | TF_REUSE_SOCKET
 		);
@@ -204,12 +179,13 @@ void TripleS::TcpSocket::Disconnect()
 	if( !ret )
 	{
 		int error = WSAGetLastError();
-
 		if( error != ERROR_IO_PENDING )
 		{
 			printf("DisconnectEx Error!!! s(%d), err(%d)\n", m_socket, error);
 		}
 	}
+
+    return ret;
 }
 
 void TripleS::TcpSocket::SetTotalRecvSize( const UInt32& size )
