@@ -4,9 +4,12 @@
 
 #include "TcpAct.h"
 #include "PacketStream.h"
+#include "Session.h"
+#include "Packet.h"
 
 namespace TripleS 
 {
+    class TcpService;
     class Proactor;
     class Acceptor;
     class Disconnector;
@@ -14,7 +17,7 @@ namespace TripleS
     class Receiver;
     class TcpService;
 
-    class TcpSocket DEBUG_PARENT(TcpSocket)
+    class TcpSocket : public Session DEBUG_PARENTS(TcpSocket)
     {
     public:
         TcpSocket(TcpService& tcp_service);
@@ -32,6 +35,8 @@ namespace TripleS
 		void SetTotalRecvSize( const UInt32& size );
 		void BuildPacket();
 		Int32 RecvCompleted(Act* act, Proactor& proactor, UInt32 len );
+        
+        virtual bool Completed(UInt32 key, PacketPtr& packet);
 
 		PacketStream& GetRecvBuff() { return RecvBuf; }
         char* GetAcceptBuffer() { return AcceptBuf_; }
@@ -53,12 +58,12 @@ namespace TripleS
         WSABUF          wsaSendBuf;
 
 		PacketStream    RecvActBuf;	    // 리시브액터가 동작할때 사용하는 버퍼.
-		PacketStream    RecvBuf;		// 이게 레알 버퍼.
         UInt32          TotalRecvSize { 0 };
 
         SOCKET          m_socket{ INVALID_SOCKET };
         SOCKADDR_IN     m_addr;
 
+        TcpService&     m_tcp_service;
         Proactor&       m_proactor;
         Acceptor&       m_acceptor;
         Disconnector&   m_disconnector;

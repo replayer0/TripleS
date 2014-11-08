@@ -1,27 +1,21 @@
 #pragma once
+typedef UInt32  PACKET_TYPE;
 
-template <typename T>
 class PacketHead
 {
 public:
 
-	PacketHead( T packetType = 0 )
+    PacketHead(PACKET_TYPE packetType)
 		: m_packetType( packetType )
 	{
 	}
 
-	UShort GetPacketType() const
+    PACKET_TYPE GetPacketType() const
 	{
-		assert( m_packetType );
 		return m_packetType;
 	}
 
-	void SetHead( const T& packetType )
-	{
-		assert( packetType );
-		m_packetType = packetType;
-	}
 
 private:
-	T m_packetType;
+    PACKET_TYPE m_packetType;
 };

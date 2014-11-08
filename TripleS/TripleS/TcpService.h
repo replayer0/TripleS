@@ -5,6 +5,8 @@
 #include "WSA.h"
 #include "BaseIocp_parameter.h"
 #include "TcpSocket.h"
+#include "FunctorAdapter.h"
+#include "Packet.h"
 
 namespace TripleS 
 {
@@ -15,13 +17,25 @@ namespace TripleS
     class Sender;
     class Receiver;
 
-    class TcpService DEBUG_PARENT(TcpService)
+    class TcpService DEBUG_PARENT( TcpService )
     {
+    public:
+        typedef TripleS::BaseFunctor<PacketPtr&> TcpFunctor;
+
     public:
         TcpService(service_desc desc);
         ~TcpService();
 
         void Start();
+
+        bool RegistFunction(UInt32 key, void(*func)(PacketPtr&) )
+        {
+            return RegistFunctor(2, new TripleS::FunctionFunctor<void(*)(PacketPtr&), PacketPtr&>(func));
+        }
+        bool RegistFunctor(UInt32 key, TcpFunctor* base_functor)
+        {
+            return m_functorAdapter.Regist(key, base_functor);
+        }
 
     private:
         void _Release();
@@ -32,7 +46,9 @@ namespace TripleS
         Disconnector*   m_disconnector      { NULL };
         Sender*         m_sender            { NULL };
         Receiver*       m_receiver          { NULL };
+        FunctorAdapter<UInt32, PacketPtr&> m_functorAdapter;
 
+        friend TcpSocket;
         friend TcpSocket::TcpSocket(TcpService& tcp_service);
     };
 };

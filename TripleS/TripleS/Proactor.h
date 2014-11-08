@@ -26,9 +26,8 @@
 #include "Act.h"
 
 namespace TripleS 
-{ 
+{
 	class TcpSocket;
-	class Packet;
     class Threads;
 
     class Proactor : private Uncopyable DEBUG_PARENTS(Proactor)

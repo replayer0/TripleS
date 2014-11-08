@@ -9,7 +9,8 @@
 #include "Receiver.h"
 
 TripleS::TcpSocket::TcpSocket(TcpService& tcp_service)
-    : m_proactor(*tcp_service.m_proactor),
+    : m_tcp_service(tcp_service),
+    m_proactor(*tcp_service.m_proactor),
     m_acceptor(*tcp_service.m_acceptor),
     m_disconnector(*tcp_service.m_disconnector),
     m_sender(*tcp_service.m_sender),
@@ -41,6 +42,11 @@ TripleS::TcpSocket::TcpSocket(TcpService& tcp_service)
 TripleS::TcpSocket::~TcpSocket()
 {
 }
+
+bool TripleS::TcpSocket::Completed(UInt32 key, PacketPtr& packet)
+{
+    return m_tcp_service.m_functorAdapter.Execute(key, packet);
+};
 
 SOCKET TripleS::TcpSocket::GetSocket() const
 {
