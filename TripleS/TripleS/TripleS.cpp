@@ -13,14 +13,33 @@
 //test functor
 class testFunctor : public TripleS::TcpService::TcpFunctor
 {
-    int distanceche(){};
-    virtual void method( TripleS::PacketPtr& params )
+public:
+    testFunctor()
     {
-        ;
+        InitializeCriticalSection(&m_cs);
     }
+    ~testFunctor()
+    {
+        DeleteCriticalSection(&m_cs);
+    }
+
+    virtual void method(TripleS::PacketPtr& params)
+    {
+        _IncCount();
+    }
+
+private:
+    UInt32 m_count{ 0 };
+    CRITICAL_SECTION m_cs;
+    void _IncCount()
+    {
+        EnterCriticalSection(&m_cs);
+        m_count++;
+        LeaveCriticalSection(&m_cs);
+    };
 };
 
-void test2( TripleS::PacketPtr& params )
+void testFunction( TripleS::PacketPtr& params )
 {}
 
 int _tmain(int argc, _TCHAR* argv[])
@@ -31,7 +50,7 @@ int _tmain(int argc, _TCHAR* argv[])
     //create
     TripleS::TcpService server(desc);
     server.RegistFunctor(1, new testFunctor);
-    server.RegistFunction(2, test2);
+    server.RegistFunction(2, testFunction);
     Sleep(2000);
 
     //create socket
@@ -40,8 +59,6 @@ int _tmain(int argc, _TCHAR* argv[])
     {
         tcp_socket[i] = std::shared_ptr<TripleS::TcpSocket>(new TripleS::TcpSocket(server));
     }
-
-    TripleS::TcpSocket tcpsocket(server);
     Sleep(2000);
 
     //run
