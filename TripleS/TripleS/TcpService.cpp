@@ -30,6 +30,16 @@ void TripleS::TcpService::Start()
     m_proactor->RunThread();
 }
 
+bool TripleS::TcpService::RegistFunction(PACKET_TYPE key, void(*func)(PacketPtr&))
+{
+    return RegistFunctor(key, new TripleS::FunctionFunctor<void(*)(PacketPtr&), PacketPtr&>(func));
+}
+
+bool TripleS::TcpService::RegistFunctor(PACKET_TYPE key, TcpFunctor* base_functor)
+{
+    return m_functorAdapter.Regist(key, base_functor);
+}
+
 void TripleS::TcpService::_Release()
 {
     if (m_proactor != NULL)

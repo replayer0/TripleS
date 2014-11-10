@@ -28,14 +28,8 @@ namespace TripleS
 
         void Start();
 
-        bool RegistFunction(UInt32 key, void(*func)(PacketPtr&) )
-        {
-            return RegistFunctor(2, new TripleS::FunctionFunctor<void(*)(PacketPtr&), PacketPtr&>(func));
-        }
-        bool RegistFunctor(UInt32 key, TcpFunctor* base_functor)
-        {
-            return m_functorAdapter.Regist(key, base_functor);
-        }
+        bool RegistFunction(PACKET_TYPE key, void(*func)(PacketPtr&) );
+        bool RegistFunctor(PACKET_TYPE key, TcpFunctor* base_functor);
 
     private:
         void _Release();
