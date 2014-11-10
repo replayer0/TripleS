@@ -46,9 +46,9 @@ namespace TripleS
         Disconnector*   m_disconnector      { NULL };
         Sender*         m_sender            { NULL };
         Receiver*       m_receiver          { NULL };
-        FunctorAdapter<UInt32, PacketPtr&> m_functorAdapter;
+        FunctorAdapter<PACKET_TYPE, PacketPtr&> m_functorAdapter;
 
-        friend TcpSocket;
         friend TcpSocket::TcpSocket(TcpService& tcp_service);
+        friend bool TcpSocket::Completed(PACKET_TYPE key, PacketPtr& packet);
     };
 };
