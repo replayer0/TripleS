@@ -4,7 +4,7 @@
 ------------------
 __info__
 
-language : c++
+language : c++ (does not support c)
 
 platform : windows(x64)
 
