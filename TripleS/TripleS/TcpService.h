@@ -28,6 +28,7 @@ namespace TripleS
 
         void Start();
 
+<<<<<<< HEAD
 //         bool RegistFunction(UInt32 key, void(*func)(PacketPtr&) )
 //         {
 //             return RegistFunctor(key, new TripleS::FunctionFunctor<void(*)(PacketPtr&), PacketPtr&>(func));
@@ -36,6 +37,10 @@ namespace TripleS
 //         {
 //             return m_functorAdapter.Regist(key, base_functor);
 //         }
+=======
+        bool RegistFunction(PACKET_TYPE key, void(*func)(PacketPtr&) );
+        bool RegistFunctor(PACKET_TYPE key, TcpFunctor* base_functor);
+>>>>>>> origin/master
 
     private:
         void _Release();
@@ -46,9 +51,13 @@ namespace TripleS
         Disconnector*   m_disconnector      { NULL };
         Sender*         m_sender            { NULL };
         Receiver*       m_receiver          { NULL };
+<<<<<<< HEAD
   //      FunctorAdapter<UInt32, PacketPtr&> m_functorAdapter;
+=======
+        FunctorAdapter<PACKET_TYPE, PacketPtr&> m_functorAdapter;
+>>>>>>> origin/master
 
-        friend TcpSocket;
         friend TcpSocket::TcpSocket(TcpService& tcp_service);
+        friend bool TcpSocket::Completed(PACKET_TYPE key, PacketPtr& packet);
     };
 };
