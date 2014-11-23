@@ -15,6 +15,11 @@ public:
 		return m_packetType;
 	}
 
+	void SetType( PACKET_TYPE type )
+	{
+		m_packetType = type;
+	}
+
 
 private:
     PACKET_TYPE m_packetType;

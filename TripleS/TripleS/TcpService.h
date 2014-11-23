@@ -20,7 +20,7 @@ namespace TripleS
     class TcpService DEBUG_PARENT( TcpService )
     {
     public:
-        typedef TripleS::BaseFunctor<PacketPtr&> TcpFunctor;
+       // typedef TripleS::BaseFunctor<PacketPtr&> TcpFunctor;
 
     public:
         TcpService(service_desc desc);
@@ -28,14 +28,14 @@ namespace TripleS
 
         void Start();
 
-        bool RegistFunction(UInt32 key, void(*func)(PacketPtr&) )
-        {
-            return RegistFunctor(2, new TripleS::FunctionFunctor<void(*)(PacketPtr&), PacketPtr&>(func));
-        }
-        bool RegistFunctor(UInt32 key, TcpFunctor* base_functor)
-        {
-            return m_functorAdapter.Regist(key, base_functor);
-        }
+//         bool RegistFunction(UInt32 key, void(*func)(PacketPtr&) )
+//         {
+//             return RegistFunctor(key, new TripleS::FunctionFunctor<void(*)(PacketPtr&), PacketPtr&>(func));
+//         }
+//         bool RegistFunctor(UInt32 key, TcpFunctor* base_functor)
+//         {
+//             return m_functorAdapter.Regist(key, base_functor);
+//         }
 
     private:
         void _Release();
@@ -46,7 +46,7 @@ namespace TripleS
         Disconnector*   m_disconnector      { NULL };
         Sender*         m_sender            { NULL };
         Receiver*       m_receiver          { NULL };
-        FunctorAdapter<UInt32, PacketPtr&> m_functorAdapter;
+  //      FunctorAdapter<UInt32, PacketPtr&> m_functorAdapter;
 
         friend TcpSocket;
         friend TcpSocket::TcpSocket(TcpService& tcp_service);

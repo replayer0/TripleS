@@ -3,7 +3,6 @@
 #define BUFSIZE 8192
 
 #include "TcpAct.h"
-#include "PacketStream.h"
 #include "Session.h"
 #include "Packet.h"
 
@@ -36,9 +35,9 @@ namespace TripleS
 		void BuildPacket();
 		Int32 RecvCompleted(Act* act, Proactor& proactor, UInt32 len );
         
-        virtual bool Completed(UInt32 key, PacketPtr& packet);
+       // virtual bool Completed(UInt32 key, PacketPtr& packet);
 
-		PacketStream& GetRecvBuff() { return RecvBuf; }
+		//PacketStream& GetRecvBuff() { return RecvBuf; }
         char* GetAcceptBuffer() { return AcceptBuf_; }
         SOCKET GetSocket() const;
         TcpAct& GetAct(ACT_TYPE act_type) { return m_act[act_type]; }
@@ -57,7 +56,7 @@ namespace TripleS
         WSABUF          wsaRecvBuf;
         WSABUF          wsaSendBuf;
 
-		PacketStream    RecvActBuf;	    // 리시브액터가 동작할때 사용하는 버퍼.
+		//PacketStream    RecvActBuf;	    // 리시브액터가 동작할때 사용하는 버퍼.
         UInt32          TotalRecvSize { 0 };
 
         SOCKET          m_socket{ INVALID_SOCKET };

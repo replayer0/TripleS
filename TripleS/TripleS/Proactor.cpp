@@ -141,10 +141,13 @@ Bool TripleS::Proactor::ProcessPacket( TcpSocket* tcpsock, void* data, Int32 siz
 	}
 
 	PacketInfo* pinfo = static_cast< PacketInfo* >( data );
+	
+	
 
-	// 이제부터가 관건.. 어떤식으로 패킷을 관리하고,, 처리 할 것인지 중요하다..
-	// 일단 졸리니 자야겠다.. ㅋ
+
+	return true;
 }
+
 const void TripleS::Proactor::RunThread()
 {
     SetEvent(m_handle_sleep);

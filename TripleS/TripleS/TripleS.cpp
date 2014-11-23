@@ -11,17 +11,17 @@
 #define num_socket 10
 
 //test functor
-class testFunctor : public TripleS::TcpService::TcpFunctor
-{
-    int distanceche(){};
-    virtual void method( TripleS::PacketPtr& params )
-    {
-        ;
-    }
-};
+// class testFunctor : public TripleS::TcpService::TcpFunctor
+// {
+//     int distanceche(){};
+//     virtual void method( TripleS::PacketPtr& params )
+//     {
+//         ;
+//     }
+// };
 
-void test2( TripleS::PacketPtr& params )
-{}
+// void test2( TripleS::PacketPtr& params )
+// {}
 
 int _tmain(int argc, _TCHAR* argv[])
 {
@@ -30,8 +30,8 @@ int _tmain(int argc, _TCHAR* argv[])
 
     //create
     TripleS::TcpService server(desc);
-    server.RegistFunctor(1, new testFunctor);
-    server.RegistFunction(2, test2);
+//    server.RegistFunctor(1, new testFunctor);
+ //   server.RegistFunction(2, test2);
     Sleep(2000);
 
     //create socket

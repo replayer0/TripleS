@@ -24,7 +24,7 @@ TripleS::TcpSocket::TcpSocket(TcpService& tcp_service)
     }
 
     // buffer
-    wsaRecvBuf.buf = (char*)RecvActBuf.GetPtr();
+//    wsaRecvBuf.buf = (char*)RecvActBuf.GetPtr();
     wsaRecvBuf.len = BUFSIZE;
     wsaSendBuf.buf = SendBuf_;
     wsaSendBuf.len = BUFSIZE;
@@ -43,10 +43,10 @@ TripleS::TcpSocket::~TcpSocket()
 {
 }
 
-bool TripleS::TcpSocket::Completed(UInt32 key, PacketPtr& packet)
-{
-    return m_tcp_service.m_functorAdapter.Execute(key, packet);
-};
+// bool TripleS::TcpSocket::Completed(UInt32 key, PacketPtr& packet)
+// {
+//     return m_tcp_service.m_functorAdapter.Execute(key, packet);
+// };
 
 SOCKET TripleS::TcpSocket::GetSocket() const
 {
@@ -56,18 +56,18 @@ SOCKET TripleS::TcpSocket::GetSocket() const
 Int32 TripleS::TcpSocket::RecvCompleted(Act* act, Proactor& proactor, UInt32 len )
 {
 	
-	if ( len <= 0 )
-	{
-		return -1;
-	}
-
-	RecvBuf.Write( RecvActBuf.GetPtr(), len );
-
-	SetTotalRecvSize( len );
-	
-	BuildPacket();
-		
-	Recv();
+// 	if ( len <= 0 )
+// 	{
+// 		return -1;
+// 	}
+// 
+// 	RecvBuf.Write( RecvActBuf.GetPtr(), len );
+// 
+// 	SetTotalRecvSize( len );
+// 	
+// 	BuildPacket();
+// 		
+// 	Recv();
 
 	return len;
 }
@@ -76,73 +76,73 @@ Int32 TripleS::TcpSocket::RecvCompleted(Act* act, Proactor& proactor, UInt32 len
 void  TripleS::TcpSocket::BuildPacket()
 {
 	
-	PacketStream& recvBuff = GetRecvBuff();
-	Byte* data = recvBuff.GetPtr();
-	UInt32 dataSize = recvBuff.GetCurSize();
-	UInt32 processedSize = 0;
-	UInt32 packetCount = 0;
+// 	PacketStream& recvBuff = GetRecvBuff();
+// 	Byte* data = recvBuff.GetPtr();
+// 	UInt32 dataSize = recvBuff.GetCurSize();
+// 	UInt32 processedSize = 0;
+// 	UInt32 packetCount = 0;
+// 
+// 	while ( PACKET_SIZE <= dataSize )
+// 	{
+// 		Int32* packetSizePtr = reinterpret_cast< Int32* >( data );
+// 		UInt32 packetLength = *packetSizePtr;
+// 
+// 		// 패킷이 버퍼를 초과.
+// 		if ( packetLength > BUFSIZE )
+// 		{
+// 			Disconnect();
+// 			break;
+// 		}
+// 
+// 		// data가 아직 덜 쌓임.
+// 		if ( packetLength + PACKET_SIZE > dataSize )
+// 		{
+// 			break;
+// 		}
+// 
+// 		UInt32 length = packetLength;
+// 
+// 		void* packet = ( void* )( data + PACKET_SIZE );
+// 
+// 		if ( !m_proactor.ProcessPacket( this, packet, static_cast< Int32 >( length ) ) )
+// 		{
+// 			Disconnect();
+// 			break;
+// 		}
+// 
+// 		++packetCount;
+// 
+// 		processedSize += ( packetLength + PACKET_SIZE );
+// 		data = data + ( packetLength + PACKET_SIZE ); // 이전 위치에서 처리 길이만큼 앞으로 이동
+// 		dataSize = dataSize - ( packetLength + 4 ); //처리한만큼 줄여줌.
+// 				
+// 	} // while end
 
-	while ( PACKET_SIZE <= dataSize )
-	{
-		Int32* packetSizePtr = reinterpret_cast< Int32* >( data );
-		UInt32 packetLength = *packetSizePtr;
-
-		// 패킷이 버퍼를 초과.
-		if ( packetLength > BUFSIZE )
-		{
-			Disconnect();
-			break;
-		}
-
-		// data가 아직 덜 쌓임.
-		if ( packetLength + PACKET_SIZE > dataSize )
-		{
-			break;
-		}
-
-		UInt32 length = packetLength;
-
-		void* packet = ( void* )( data + PACKET_SIZE );
-
-		if ( !m_proactor.ProcessPacket( this, packet, static_cast< Int32 >( length ) ) )
-		{
-			Disconnect();
-			break;
-		}
-
-		++packetCount;
-
-		processedSize += ( packetLength + PACKET_SIZE );
-		data = data + ( packetLength + PACKET_SIZE ); // 이전 위치에서 처리 길이만큼 앞으로 이동
-		dataSize = dataSize - ( packetLength + 4 ); //처리한만큼 줄여줌.
-				
-	} // while end
-
-	if ( processedSize > 0 )
-	{
-		recvBuff.Pop( processedSize );
-	}
+	//if ( processedSize > 0 )
+	//{
+		//recvBuff.Pop( processedSize );
+	//}
 }
 
 void TripleS::TcpSocket::Recv()
 {
-	DWORD recvbytes = wsaRecvBuf.len;
-	DWORD flags = 0;
-	
-	RecvActBuf.SetCapacity( BUFSIZE );
-
-	INT ret	= WSARecv( m_socket, &(wsaRecvBuf), 1, &recvbytes, &flags, static_cast<OVERLAPPED*>(&(m_act[ACT_RECV])), NULL );
-
-	if( ret != 0 )
-	{
-		int error = WSAGetLastError();
-
-		if( error != ERROR_IO_PENDING )
-		{
-			printf( "WSARecv() Error!!! s(%d) err(%d)\n", m_socket, error );
-			Disconnect();
-		}
-	}
+// 	DWORD recvbytes = wsaRecvBuf.len;
+// 	DWORD flags = 0;
+// 	
+// 	RecvActBuf.SetCapacity( BUFSIZE );
+// 
+// 	INT ret	= WSARecv( m_socket, &(wsaRecvBuf), 1, &recvbytes, &flags, static_cast<OVERLAPPED*>(&(m_act[ACT_RECV])), NULL );
+// 
+// 	if( ret != 0 )
+// 	{
+// 		int error = WSAGetLastError();
+// 
+// 		if( error != ERROR_IO_PENDING )
+// 		{
+// 			printf( "WSARecv() Error!!! s(%d) err(%d)\n", m_socket, error );
+// 			Disconnect();
+// 		}
+// 	}
 }
 
 void TripleS::TcpSocket::Send(BYTE* buf, int buflen)
@@ -172,7 +172,7 @@ const bool TripleS::TcpSocket::RegistAccept()
 
 const bool TripleS::TcpSocket::Disconnect()
 {
-	BOOL ret = TransmitFile(	
+	bool ret = TransmitFile(	
 		m_socket, 
 		NULL, 
 		0, 
