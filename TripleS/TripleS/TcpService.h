@@ -51,7 +51,7 @@ namespace TripleS
         Sender*         m_sender            { NULL };
         Receiver*       m_receiver          { NULL };
 
-  //      FunctorAdapter<UInt32, PacketPtr&> m_functorAdapter;
+        // FunctorAdapter<UInt32, PacketPtr&> m_functorAdapter;
 
 
         friend TcpSocket::TcpSocket(TcpService& tcp_service);
