@@ -35,12 +35,9 @@ namespace TripleS
 		void BuildPacket();
 		Int32 RecvCompleted(Act* act, Proactor& proactor, UInt32 len );
         
-<<<<<<< HEAD
-       // virtual bool Completed(UInt32 key, PacketPtr& packet);
-=======
-        virtual bool Completed(PACKET_TYPE key, PacketPtr& packet);
->>>>>>> origin/master
 
+       // virtual bool Completed(UInt32 key, PacketPtr& packet);
+		
 		//PacketStream& GetRecvBuff() { return RecvBuf; }
         char* GetAcceptBuffer() { return AcceptBuf_; }
         SOCKET GetSocket() const;

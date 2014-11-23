@@ -43,17 +43,12 @@ TripleS::TcpSocket::~TcpSocket()
 {
 }
 
-<<<<<<< HEAD
+
 // bool TripleS::TcpSocket::Completed(UInt32 key, PacketPtr& packet)
 // {
 //     return m_tcp_service.m_functorAdapter.Execute(key, packet);
 // };
-=======
-bool TripleS::TcpSocket::Completed(PACKET_TYPE key, PacketPtr& packet)
-{
-    return m_tcp_service.m_functorAdapter.Execute(key, packet);
-};
->>>>>>> origin/master
+
 
 SOCKET TripleS::TcpSocket::GetSocket() const
 {
