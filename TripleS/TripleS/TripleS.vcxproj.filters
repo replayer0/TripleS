@@ -137,6 +137,9 @@
     <ClCompile Include="TcpService.cpp">
       <Filter>Service\Proactor\Tcp</Filter>
     </ClCompile>
+    <ClCompile Include="ProtoBuffer.cpp">
+      <Filter>Service\Packet</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
