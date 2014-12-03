@@ -48,3 +48,5 @@
 /TripleS/lib/necessary_runtime/Microsoft.DTfW.DHL.manifest
 /TripleS/TripleS/memory_leak_report.txt
 /TripleS/TripleS/ClassDiagram.cd
+intermediate
+ipch
