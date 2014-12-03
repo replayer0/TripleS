@@ -1,0 +1,16 @@
+﻿빌드 시작: 2014-11-16 오후 12:36:07
+     1>4 노드의 "D:\work2\protobuf-2.6.1\protobuf-2.6.1\vsprojects\test_plugin.vcxproj" 프로젝트(Rebuild 대상)입니다.
+     1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppClean.targets(76,5): warning : 'd:\work2\protobuf-2.6.1\protobuf-2.6.1\vsprojects\debug\vc120.idb' 파일은 다른 프로세스에서 사용 중이므로 프로세스에서 액세스할 수 없습니다.
+     1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets(388,5): warning MSB8028: The intermediate directory (Debug\) contains files shared from another project (libprotobuf-lite.vcxproj, libprotobuf.vcxproj, libprotoc.vcxproj, protoc.vcxproj, tests.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I../src /I. /I../gtest/include /I"C:\Program Files (x86)\Visual Leak Detector\include" /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _VARIADIC_MAX=10 /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt /wd4244 /wd4267 /wd4018 /wd4355 /wd4800 /wd4251 /wd4996 /wd4146 /wd4305 ..\src\google\protobuf\compiler\mock_code_generator.cc ..\src\google\protobuf\compiler\test_plugin.cc ..\src\google\protobuf\testing\file.cc
+         file.cc
+         test_plugin.cc
+         mock_code_generator.cc
+     1>d:\work2\protobuf-2.6.1\protobuf-2.6.1\src\google\protobuf\compiler\mock_code_generator.cc(44): fatal error C1083: 포함 파일을 열 수 없습니다. 'gtest/gtest.h': No such file or directory
+         코드를 생성하고 있습니다...
+     1>"D:\work2\protobuf-2.6.1\protobuf-2.6.1\vsprojects\test_plugin.vcxproj" 프로젝트를 빌드했습니다(Rebuild 대상). - 실패
+
+빌드하지 못했습니다.
+
+경과 시간: 00:00:01.45
