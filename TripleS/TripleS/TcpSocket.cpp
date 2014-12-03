@@ -45,7 +45,7 @@ TripleS::TcpSocket::~TcpSocket()
 
 bool TripleS::TcpSocket::Completed(PACKET_TYPE key, PacketPtr& packet)
 {
-    return m_tcp_service.m_functorAdapter.Execute(key, packet);
+    return m_tcp_service.m_functorAdapter->Execute(key, packet);
 };
 
 SOCKET TripleS::TcpSocket::GetSocket() const
