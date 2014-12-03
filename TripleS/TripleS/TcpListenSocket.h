@@ -19,7 +19,7 @@ namespace TripleS
     private:
         void _Init(WORD port, int backlogsize);
 
-        SOCKET		m_listen_socket { 9000 };
+        SOCKET		m_listen_socket{ INVALID_SOCKET };
         SOCKADDR_IN m_socket_addr;
         int			m_backlog_size { 0 };
         Proactor&   m_proactor;
