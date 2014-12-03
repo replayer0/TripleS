@@ -7,6 +7,7 @@
 #include "TcpService.h"
 #include "TcpSocket.h"
 
+#include "TcpConnectSocket.h"
 //test option
 #define num_socket 10
 
@@ -42,35 +43,57 @@ private:
 void testFunction( TripleS::PacketPtr& params )
 {}
 
+TripleS::TcpService* g_tcp_service;
+BOOL CtrlHandler(DWORD ctrl_type)
+{
+    switch (ctrl_type)
+    {
+    case CTRL_C_EVENT:
+    case CTRL_CLOSE_EVENT:
+    case CTRL_BREAK_EVENT:
+    case CTRL_LOGOFF_EVENT:
+    case CTRL_SHUTDOWN_EVENT:
+    default:
+        if (g_tcp_service != NULL)
+        {
+            delete[] g_tcp_service;
+            g_tcp_service = NULL;
+        }
+        return FALSE;
+    }
+}
+
 int _tmain(int argc, _TCHAR* argv[])
 {
+    TripleS::TcpConnectSocket so;
+    so.Connect();
+
     //define desc
     TripleS::service_desc desc;
 
     //create
-    TripleS::TcpService server(desc);
-    server.RegistFunctor(1, new testFunctor);
-    server.RegistFunction(2, testFunction);
+    TripleS::TcpService* server = new TripleS::TcpService(desc);
+    g_tcp_service = server;
+    SetConsoleCtrlHandler((PHANDLER_ROUTINE)CtrlHandler, TRUE);
     Sleep(2000);
 
-    //create socket
-    std::shared_ptr<TripleS::TcpSocket> tcp_socket[num_socket];
-    for (int i = 0; i < num_socket; ++i)
-    {
-        tcp_socket[i] = std::shared_ptr<TripleS::TcpSocket>(new TripleS::TcpSocket(server));
-    }
-    Sleep(2000);
+    //regist functor
+    server->RegistFunctor(1, new testFunctor);
+    server->RegistFunction(2, testFunction);
 
     //run
-    server.Start();
+    server->Start();
 
-    //regist
-    for (int i = 0; i < num_socket; ++i)
+    //while (true)
     {
-        tcp_socket[i]->RegistAccept();
     }
 
-    Sleep(2000);
+    if (server != NULL)
+    {
+        delete[] server;
+        server = NULL;
+    }
+
 	return 0;
 }
 

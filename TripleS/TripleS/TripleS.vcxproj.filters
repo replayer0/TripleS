@@ -108,6 +108,9 @@
     <ClInclude Include="WSA.h">
       <Filter>Service</Filter>
     </ClInclude>
+    <ClInclude Include="TcpConnectSocket.h">
+      <Filter>Service\Proactor\Tcp</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Proactor.cpp">
@@ -135,6 +138,9 @@
       <Filter>Service\Proactor</Filter>
     </ClCompile>
     <ClCompile Include="TcpService.cpp">
+      <Filter>Service\Proactor\Tcp</Filter>
+    </ClCompile>
+    <ClCompile Include="TcpConnectSocket.cpp">
       <Filter>Service\Proactor\Tcp</Filter>
     </ClCompile>
   </ItemGroup>
