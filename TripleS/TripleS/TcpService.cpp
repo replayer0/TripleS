@@ -17,6 +17,7 @@ TripleS::TcpService::TcpService(service_desc desc)
     m_receiver = new Receiver(*m_proactor);
     m_tcp_listen_socket = new TcpListenSocket(desc.m_listen_desc, *m_proactor);
     m_acceptor = new Acceptor(*m_tcp_listen_socket, *m_proactor);
+    m_functorAdapter = new FunctorAdapter < PACKET_TYPE, PacketPtr& > ;
 }
 
 TripleS::TcpService::~TcpService()
@@ -37,7 +38,7 @@ bool TripleS::TcpService::RegistFunction(PACKET_TYPE key, void(*func)(PacketPtr&
 
 bool TripleS::TcpService::RegistFunctor(PACKET_TYPE key, TcpFunctor* base_functor)
 {
-    return m_functorAdapter.Regist(key, base_functor);
+    return m_functorAdapter->Regist(key, base_functor);
 }
 
 void TripleS::TcpService::_Release()
@@ -45,30 +46,42 @@ void TripleS::TcpService::_Release()
     if (m_proactor != NULL)
     {
         delete[] m_proactor;
+        m_proactor = NULL;
     }
 
     if (m_tcp_listen_socket != NULL)
     {
         delete[] m_tcp_listen_socket;
+        m_tcp_listen_socket = NULL;
     }
 
     if (m_acceptor != NULL)
     {
         delete[] m_acceptor;
+        m_acceptor = NULL;
     }
 
     if (m_disconnector != NULL)
     {
         delete[] m_disconnector;
+        m_disconnector = NULL;
     }
 
     if (m_sender != NULL)
     {
         delete[] m_sender;
+        m_sender = NULL;
     }
 
     if (m_receiver != NULL)
     {
         delete[] m_receiver;
+        m_receiver = NULL;
+    }
+
+    if (m_functorAdapter != NULL)
+    {
+        delete[] m_functorAdapter;
+        m_functorAdapter = NULL;
     }
 }
