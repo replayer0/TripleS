@@ -216,8 +216,8 @@ namespace TripleS
     private:
         void _Release()
         {
-            //m_inner_keys.clear();
-            //m_values.clear(); //leak
+            m_inner_keys.clear();
+            m_values.clear();
         }
 
         typedef int INNER_KEY;
