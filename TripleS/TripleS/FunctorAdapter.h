@@ -79,7 +79,7 @@ namespace TripleS
                 return false;
             }
 
-            return m_container.insert(std::make_pair(key, FUNCTOR_PTR(base_functor))).second;
+            return m_container.insert( std::make_pair(key, FUNCTOR_PTR(base_functor) ) ).second;
         }
 
         bool Execute(const key_tn key_value, arg_tns...params)

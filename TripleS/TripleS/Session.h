@@ -20,7 +20,7 @@ namespace TripleS
         UInt32 GetSessionIdx() {return m_session_idx;}
 
     protected:
-        PacketStream    RecvBuf;		// 이게 레알 버퍼.
+//        PacketStream    RecvBuf;		// 이게 레알 버퍼.
         UInt32 m_session_idx;
     };
 }

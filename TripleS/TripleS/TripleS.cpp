@@ -24,7 +24,7 @@ public:
         DeleteCriticalSection(&m_cs);
     }
 
-    virtual void method(TripleS::PacketPtr& params)
+    virtual void method(TripleS::PACKET_PTR& params)
     {
         _IncCount();
     }
@@ -40,7 +40,7 @@ private:
     };
 };
 
-void testFunction( TripleS::PacketPtr& params )
+void testFunction(TripleS::PACKET_PTR& params)
 {}
 
 TripleS::TcpService* g_tcp_service;
@@ -84,7 +84,7 @@ int _tmain(int argc, _TCHAR* argv[])
     //run
     server->Start();
 
-    //while (true)
+    for (int i = 0; i < num_socket; ++i)
     {
     }
 

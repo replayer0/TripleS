@@ -42,7 +42,7 @@ void TripleS::Acceptor::ProcError(Act* act, DWORD error)
 	//printf("...에러처리 Acceptor s(%d) err(%d)\n", tcpsocket.GetSocket(), error );
 }
 
-bool TripleS::Acceptor::Register(TcpSocket& acceptsocket)
+BOOL TripleS::Acceptor::Register(TcpSocket& acceptsocket)
 {
 	DWORD byte_transferred;
 		

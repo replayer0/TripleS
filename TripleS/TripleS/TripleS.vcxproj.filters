@@ -102,9 +102,6 @@
     <ClInclude Include="PacketHead.h">
       <Filter>Service\Packet</Filter>
     </ClInclude>
-    <ClInclude Include="PacketStream.h">
-      <Filter>Service\Packet</Filter>
-    </ClInclude>
     <ClInclude Include="WSA.h">
       <Filter>Service</Filter>
     </ClInclude>

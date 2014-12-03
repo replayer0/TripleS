@@ -17,7 +17,7 @@ TripleS::TcpService::TcpService(service_desc desc)
     m_receiver = new Receiver(*m_proactor);
     m_tcp_listen_socket = new TcpListenSocket(desc.m_listen_desc, *m_proactor);
     m_acceptor = new Acceptor(*m_tcp_listen_socket, *m_proactor);
-    m_functorAdapter = new FunctorAdapter < PACKET_TYPE, PacketPtr& > ;
+    m_functorAdapter = new FunctorAdapter < PACKET_TYPE, PACKET_PTR& > ;
 }
 
 TripleS::TcpService::~TcpService()
@@ -31,14 +31,14 @@ void TripleS::TcpService::Start()
     m_proactor->RunThread();
 }
 
-bool TripleS::TcpService::RegistFunction(PACKET_TYPE key, void(*func)(PacketPtr&))
-{
-    return RegistFunctor(key, new TripleS::FunctionFunctor<void(*)(PacketPtr&), PacketPtr&>(func));
-}
-
 bool TripleS::TcpService::RegistFunctor(PACKET_TYPE key, TcpFunctor* base_functor)
 {
     return m_functorAdapter->Regist(key, base_functor);
+}
+
+bool TripleS::TcpService::RegistFunction(UInt32 key, void(*func)(PACKET_PTR&))
+{
+    return RegistFunctor(key, new TripleS::FunctionFunctor<void(*)(PACKET_PTR&), PACKET_PTR&>(func));
 }
 
 void TripleS::TcpService::_Release()
