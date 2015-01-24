@@ -1,0 +1,54 @@
+package PACKET;
+
+enum PACKET_TYPE{
+  ////////////////////////////////////////////// account
+  eCS_LOGIN_REQ = 1;
+  eSC_LOGIN_ACK = 2;
+
+  ////////////////////////////////////////////// in game
+  eCS_INSERT_UNIT_REQ = 200;
+  eSC_INSERT_UNIT_ACK = 201;
+  eCS_REMOVE_UNIT_REQ = 202;
+  eSC_REMOVE_UNIT_ACK = 203;
+  eCS_MOVE_UNIT_REQ = 204;
+  eSC_MOVE_UNIT_ACK = 205;
+  
+  eCS_CHANGE_UNIT_REQ = 210;
+  eSC_CHANGE_UNIT_ACK = 211;
+}
+
+// common message
+
+message Position{
+  required int32 x = 1;
+  required int32 y = 2;
+  required int32 z = 3;
+}
+
+// using messages
+
+message CS_LOGIN_REQ{
+  required bytes id = 1;
+}
+
+message SC_LOGIN_ACK{
+  required bytes id = 1;
+  required int32 result = 2;
+}
+
+message SC_INSERT_UNIT_ACK{
+  required int32 object_key = 1;
+  required int32 type = 2;
+  required int32 team = 3;
+  required Position position = 4;
+}
+
+message SC_REMOVE_UNIT_ACK{
+  required int32 object_key = 1;
+}
+
+message SC_MOVE_UNIT_ACK{
+  required int32 object_key = 1;
+  required int32 move_type = 2;
+  required Position position = 3;
+}

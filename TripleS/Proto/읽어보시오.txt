@@ -1,8 +1,0 @@
-run.bat 를 실행하면
-tutorial.proto 를 
-
-pb.h, pb.cc 파일로 코드를 제네레이트 해준다.
-
-생성된 파일은 
-
-Shared 폴더 밑으로 들어간다
