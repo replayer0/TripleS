@@ -154,48 +154,11 @@ BOOL CtrlHandler(DWORD ctrl_type)
         return FALSE;
     }
 }
-class Test1 LOG_CLASS(Test1)
-{
-public:
-    static void aa()
-    {
-        printf("Test1");
-    }
-};
-class Test2
-{
-public:
-    static void aa()
-    {
-        printf("Test2");
-    }
-};
-template <class TEST = Test1, class TEST2 = Test2>
-class YY
-{
-public:
-    void asd()
-    {
-        TEST::aa();
-        TEST2::aa();
-    }
-
-    TEST* m_test;
-};
-template <class TEST, class TEST2>
-void Testfunc(YY<TEST, TEST2> kk)
-{
-    kk.asd();
-}
 
 int _tmain(int argc, _TCHAR* argv[])
 {
     // set log callback
     LogCallback = LogCallbackFunction;
-
-    YY<Test1, Test1> a;
-    a.asd();
-    Testfunc(a);
 
     // define desc
     TripleS::service_desc desc;
