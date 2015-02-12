@@ -197,10 +197,6 @@ int _tmain(int argc, _TCHAR* argv[])
     a.asd();
     Testfunc(a);
 
-    //두군데 나눠서 작업한다 ///////////////////////////////029308203920397
-    // 지금까지 작업한것은 깃헙 // 템플릿을 이용한것은 개인 폴더
-
-
     // define desc
     TripleS::service_desc desc;
     desc.m_thread_desc.m_begin_thread_count = 1;
